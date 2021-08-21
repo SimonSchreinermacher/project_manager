@@ -5,7 +5,9 @@ class Home extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            projects: ["Project1", "Project2"],
+            projects: [
+                {id: 1234, name: "Project1"}, 
+                {id: 5678, name: "Project2"}],
         }
     }
 
@@ -16,8 +18,8 @@ class Home extends React.Component {
 
     render(){
         const project_list = this.state.projects.map(project => 
-            <div>
-                <p>{project}</p>
+            <div key={project.id.toString()}>
+                <a href={"/project/" + project.id}>{project.name}</a>
             </div>
             );
 
