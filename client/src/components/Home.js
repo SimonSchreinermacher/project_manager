@@ -11,7 +11,7 @@ class Home extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        console.log("TODO");
+        this.props.history.push("/create");
     }
 
     render(){
