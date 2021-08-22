@@ -13,6 +13,11 @@ class Project extends React.Component {
         };
     }
 
+    addNewTodo(event){
+        event.preventDefault();
+        this.props.history.push("/project/" + this.props.match.params.id + "/newtask")
+    }
+
     render(){
         const todo_list = this.state.todos.map(task => 
             <div>
@@ -26,6 +31,9 @@ class Project extends React.Component {
                 <p>Language: {this.state.language}</p>
                 <p>Project has to be finished before: {this.state.deadline}</p>
                 <h2>TODO:</h2>
+                <form onSubmit={this.addNewTodo.bind(this)}>
+                    <button type="submit">Add new</button>
+                </form>
                 {todo_list}
             </div>
         );
