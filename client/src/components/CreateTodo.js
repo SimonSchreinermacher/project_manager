@@ -12,6 +12,11 @@ class CreateTodo extends React.Component {
         };
     }
 
+    cancelCreating(event){
+        event.preventDefault();
+        this.props.history.push('/project/' + this.props.match.params.id);
+    }
+
     handleSubmit(event){
         event.preventDefault();
         console.log(this.state.title);
@@ -30,6 +35,10 @@ class CreateTodo extends React.Component {
 
         return(
             <div>
+                <form onSubmit={this.cancelCreating.bind(this)}>
+                    <button type="submit">Cancel</button>
+                </form>
+
                 <h1>Create new TODO:</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <p>Title</p>

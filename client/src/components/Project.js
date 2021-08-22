@@ -18,6 +18,11 @@ class Project extends React.Component {
         this.props.history.push("/project/" + this.props.match.params.id + "/newtask")
     }
 
+    returnToOverview(event){
+        event.preventDefault();
+        this.props.history.push('/');
+    }
+
     render(){
         const todo_list = this.state.todos.map(task => 
             <div>
@@ -26,6 +31,10 @@ class Project extends React.Component {
 
         return(
             <div>
+                <form onSubmit={this.returnToOverview.bind(this)}>
+                    <button type="submit">Back to overview page</button>
+                </form>
+                
                 <h1>{this.state.name}</h1>
                 <p>{this.state.description}</p>
                 <p>Language: {this.state.language}</p>

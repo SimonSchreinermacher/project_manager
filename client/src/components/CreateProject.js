@@ -12,6 +12,11 @@ class CreateProject extends React.Component {
         };
     }
 
+    cancelCreating(event){
+        event.preventDefault();
+        this.props.history.push('/');
+    }
+
     handleSubmit(event){
         event.preventDefault();
         console.log(this.state.name);
@@ -27,6 +32,10 @@ class CreateProject extends React.Component {
     render(){
         return(
             <div>
+                <form onSubmit={this.cancelCreating.bind(this)}>
+                    <button type="submit">Cancel</button>
+                </form>
+
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <p>Name</p>
                     <input onChange={e => this.setState({name: e.target.value})}></input>
