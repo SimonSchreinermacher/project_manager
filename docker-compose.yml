@@ -4,9 +4,8 @@ services:
         image: mysql:latest
         container_name: Database
         volumes:
-        - ./database:/var/lib/mysql
-        #- ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-        - .schema.sql:/schema.sql
+        #- ./database:/var/lib/mysql
+        - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
         ports:
         - "3307:3306"
         environment:
