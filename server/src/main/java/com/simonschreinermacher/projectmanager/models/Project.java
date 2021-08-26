@@ -1,15 +1,15 @@
 package com.simonschreinermacher.projectmanager.models;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Project {
 
     @Id
@@ -20,5 +20,5 @@ public class Project {
     private LocalDateTime deadline;
 
     @MappedCollection(keyColumn = "todo_id", idColumn = "project")
-    private List<Todo> todos;
+    private Set<Todo> todos;
 }
