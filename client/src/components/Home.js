@@ -1,13 +1,12 @@
 import React from 'react';
+import axios from 'axios';
 
 class Home extends React.Component {
 
     constructor(props){
         super(props);
         this.state={
-            projects: [
-                {id: 1234, name: "Project1"}, 
-                {id: 5678, name: "Project2"}],
+            projects: []
         }
     }
 
@@ -16,10 +15,20 @@ class Home extends React.Component {
         this.props.history.push("/create");
     }
 
+    componentDidMount(){
+        axios.get("http://localhost:8080/projects")
+        .then((res) => {
+            this.setState({projects: res.data});
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
     render(){
         const project_list = this.state.projects.map(project => 
-            <div key={project.id.toString()}>
-                <a href={"/project/" + project.id}>{project.name}</a>
+            <div key={project.project_id.toString()}>
+                <a href={"/project/" + project.project_id}>{project.name}</a>
             </div>
             );
 
