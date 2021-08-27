@@ -1,15 +1,16 @@
 import React from 'react';
+import axios from 'axios';
 
 class Project extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            name: "Project1",
-            description: "some description of a project",
-            language: "Python",
+            name: "LOADING",
+            description: "LOADING",
+            language: "LOADING",
             deadline: "yes",
-            todos: ["do something", "do more"]
+            todos: []
         };
     }
 
@@ -21,6 +22,22 @@ class Project extends React.Component {
     returnToOverview(event){
         event.preventDefault();
         this.props.history.push('/');
+    }
+
+    componentDidMount(){
+        axios.get("http://localhost:8080/projects/" + this.props.match.params.id)
+        .then((res) => {
+            console.log(res.data);
+            this.setState({
+                name: res.data.name,
+                language: res.data.language,
+                deadline: res.data.deadline,
+                todos: res.data.todos
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     render(){
