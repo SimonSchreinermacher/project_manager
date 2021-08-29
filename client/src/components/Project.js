@@ -30,6 +30,7 @@ class Project extends React.Component {
             console.log(res.data);
             this.setState({
                 name: res.data.name,
+                description: res.data.description,
                 language: res.data.language,
                 deadline: res.data.deadline,
                 todos: res.data.todos

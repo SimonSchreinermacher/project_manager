@@ -15,6 +15,7 @@ public class Project {
     @Id
     private Long project_id;
     private String name;
+    private String description;
     private String language;
     private LocalDateTime created_on;
     private LocalDateTime deadline;

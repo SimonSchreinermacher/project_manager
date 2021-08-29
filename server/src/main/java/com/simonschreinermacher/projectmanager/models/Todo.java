@@ -11,6 +11,7 @@ public class Todo {
     @Id
     private Long todo_id;
     private String title;
+    private String category;
     private String importance;
     private boolean is_finished;
 }
