@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Data
@@ -17,8 +17,8 @@ public class Project {
     private String name;
     private String description;
     private String language;
-    private LocalDateTime created_on;
-    private LocalDateTime deadline;
+    private LocalDate created_on;
+    private LocalDate deadline;
 
     @MappedCollection(keyColumn = "todo_id", idColumn = "project")
     private Set<Todo> todos;

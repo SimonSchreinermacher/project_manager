@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import moment from 'moment';
 
 class CreateProject extends React.Component {
 
@@ -19,14 +21,18 @@ class CreateProject extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        console.log(this.state.name);
-        console.log(this.state.description);
-        console.log(this.state.language);
-        console.log(this.state.deadline);
+        const createdOn = moment().format().slice(0,10); //Generates a string of current time in format yyyy-mm-dd
 
-        //DATABASE CALL
+        const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: createdOn, deadline: this.state.deadline}
+        axios.post("http://localhost:8080/projects", data)
+        .then((res) => {
+            this.props.history.push("/")
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 
-        this.props.history.push("/")
+        
     }
 
     render(){

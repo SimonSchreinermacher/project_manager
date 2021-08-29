@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS project(
 	name VARCHAR(255),
 	description VARCHAR(255),
 	language VARCHAR(255),
-	created_on DATETIME,
-	deadline DATETIME
+	created_on DATE,
+	deadline DATE
 );
 
 CREATE TABLE IF NOT EXISTS todo(
