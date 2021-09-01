@@ -53,6 +53,7 @@ class CreateTodo extends React.Component {
                     <input onChange={e => this.setState({title: e.target.value})}></input>
                     <p>Importance</p>
                     <select onChange={e => this.setState({importance: e.target.value})}>
+                        <option selected disabled hidden></option>
                         <option>Minor</option>
                         <option>Medium</option>
                         <option>Major</option>
@@ -61,6 +62,7 @@ class CreateTodo extends React.Component {
                     </select>
                     <p>Set category</p>
                     <select onChange={e => this.setState({chosenCategory: e.target.value})}>
+                        <option selected disabled hidden></option>
                         {allCategories}
                     </select>
                     <br></br>

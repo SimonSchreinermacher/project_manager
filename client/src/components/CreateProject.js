@@ -51,6 +51,7 @@ class CreateProject extends React.Component {
 
                     <p>Language</p>
                     <select onChange={e => this.setState({language: e.target.value})}>
+                        <option selected disabled hidden></option>
                         <option>Python</option>
                         <option>Java</option>
                         <option>JavaScript</option>
