@@ -22,4 +22,8 @@ public class Project {
 
     @MappedCollection(keyColumn = "todo_id", idColumn = "project")
     private Set<Todo> todos;
+
+    public void addTodo(Todo todo){
+        todos.add(todo);
+    }
 }

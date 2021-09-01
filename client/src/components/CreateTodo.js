@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class CreateTodo extends React.Component {
 
@@ -23,9 +24,16 @@ class CreateTodo extends React.Component {
         console.log(this.state.importance);
         console.log(this.state.chosenCategory);
 
-        //DATABASE CALL
+        const data = {title: this.state.title, importance: this.state.importance, category: this.state.chosenCategory};
 
-        this.props.history.push("/project/" + this.props.match.params.id)
+        //DATABASE CALL
+        axios.post("http://localhost:8080/projects/" + this.props.match.params.id + "/todos", data)
+        .then((res) => {
+            this.props.history.push("/project/" + this.props.match.params.id)
+        })
+        .catch((err) => {
+            console.log("err");
+        })
     }
 
     render(){

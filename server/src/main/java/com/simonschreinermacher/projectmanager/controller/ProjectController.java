@@ -56,4 +56,23 @@ public class ProjectController {
 
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
+
+    @PostMapping("/projects/{project_id}/todos")
+    public ResponseEntity<Boolean> addTodo(@RequestBody Map<String, Object> payload, @PathVariable(value = "project_id") String project_id){
+        String title = payload.get("title").toString();
+        String importance = payload.get("importance").toString();
+        String category = payload.get("category").toString();
+
+        Todo todo = new Todo(null, title, category, importance, false);
+
+        Optional<Project> projectOptional = projectRepository.findById(Long.parseLong(project_id));
+        if(projectOptional.isPresent()){
+            Project project = projectOptional.get();
+            project.addTodo(todo);
+            projectRepository.save(project);
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
+    }
 }

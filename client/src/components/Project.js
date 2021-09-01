@@ -44,7 +44,10 @@ class Project extends React.Component {
     render(){
         const todo_list = this.state.todos.map(task => 
             <div>
-                <p>{task}</p>
+                <p>Title: {task.title}</p>
+                <p>Category: {task.category}</p>
+                <p>Importance: {task.importance}</p>
+                <br></br>
             </div>);
 
         return(
