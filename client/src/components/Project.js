@@ -10,7 +10,8 @@ class Project extends React.Component {
             description: "LOADING",
             language: "LOADING",
             deadline: "yes",
-            todos: []
+            todos: [],
+            todos_shown: "Running"
         };
     }
 
@@ -22,6 +23,17 @@ class Project extends React.Component {
     returnToOverview(event){
         event.preventDefault();
         this.props.history.push('/');
+    }
+
+    changeTodosDisplayed(event){
+        event.preventDefault();
+        if(this.state.todos_shown === "Running"){
+            this.setState({todos_shown: "Finished"});
+        }
+        else{
+            this.setState({todos_shown: "Running"});
+        }
+        console.log(this.state.todos_shown)
     }
 
     componentDidMount(){
@@ -42,13 +54,14 @@ class Project extends React.Component {
     }
 
     render(){
-        const todo_list = this.state.todos.map(task => 
-            <div>
-                <p>Title: {task.title}</p>
-                <p>Category: {task.category}</p>
-                <p>Importance: {task.importance}</p>
-                <br></br>
-            </div>);
+        const todo_list = this.state.todos.filter(task => {return (task._finished ^ this.state.todos_shown === "Running")}).map(task => 
+                <div>
+                    <p>Title: {task.title}</p>
+                    <p>Category: {task.category}</p>
+                    <p>Importance: {task.importance}</p>
+                    <br></br>
+                </div>
+            );
 
         return(
             <div>
@@ -63,6 +76,10 @@ class Project extends React.Component {
                 <h2>TODO:</h2>
                 <form onSubmit={this.addNewTodo.bind(this)}>
                     <button type="submit">Add new</button>
+                </form>
+
+                <form onSubmit={this.changeTodosDisplayed.bind(this)}>
+                    <button type="submit">Currently showing {this.state.todos_shown} todos</button>
                 </form>
                 {todo_list}
             </div>
