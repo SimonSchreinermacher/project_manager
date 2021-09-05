@@ -75,4 +75,10 @@ public class ProjectController {
 
         return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
     }
+
+    @DeleteMapping("/projects/{project_id}")
+    public ResponseEntity<Boolean> deleteProject(@PathVariable(value = "project_id") String project_id){
+        projectRepository.deleteById(Long.parseLong(project_id));
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+    }
 }

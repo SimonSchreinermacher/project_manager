@@ -36,6 +36,18 @@ class Project extends React.Component {
         console.log(this.state.todos_shown)
     }
 
+    deleteProject(event){
+        event.preventDefault();
+        axios.delete("http://localhost:8080/projects/" + this.props.match.params.id)
+        .then((res) => {
+            this.props.history.push("/")
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+        
+    }
+
     componentDidMount(){
         axios.get("http://localhost:8080/projects/" + this.props.match.params.id)
         .then((res) => {
@@ -67,6 +79,10 @@ class Project extends React.Component {
             <div>
                 <form onSubmit={this.returnToOverview.bind(this)}>
                     <button type="submit">Back to overview page</button>
+                </form>
+
+                <form onSubmit={this.deleteProject.bind(this)}>
+                    <button type="submit">Delete</button>
                 </form>
                 
                 <h1>{this.state.name}</h1>
