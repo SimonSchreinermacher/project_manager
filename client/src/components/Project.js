@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Todo from './Todo.js';
 
 class Project extends React.Component {
 
@@ -68,10 +69,7 @@ class Project extends React.Component {
     render(){
         const todo_list = this.state.todos.filter(task => {return (task._finished ^ this.state.todos_shown === "Running")}).map(task => 
                 <div>
-                    <p>Title: {task.title}</p>
-                    <p>Category: {task.category}</p>
-                    <p>Importance: {task.importance}</p>
-                    <br></br>
+                    <Todo todo = {task}></Todo>
                 </div>
             );
 
