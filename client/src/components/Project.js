@@ -69,7 +69,7 @@ class Project extends React.Component {
     render(){
         const todo_list = this.state.todos.filter(task => {return (task._finished ^ this.state.todos_shown === "Running")}).map(task => 
                 <div>
-                    <Todo todo = {task}></Todo>
+                    <Todo todo = {task} project_id = {this.props.match.params.id}></Todo>
                 </div>
             );
 

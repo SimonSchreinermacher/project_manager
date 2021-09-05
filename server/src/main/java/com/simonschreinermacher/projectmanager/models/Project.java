@@ -7,6 +7,7 @@ import org.springframework.data.relational.core.mapping.MappedCollection;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -25,5 +26,9 @@ public class Project {
 
     public void addTodo(Todo todo){
         todos.add(todo);
+    }
+
+    public void removeTodo(Long todo_id){
+        todos =  todos.stream().filter(entry -> !entry.getTodo_id().equals(todo_id)).collect(Collectors.toSet());
     }
 }

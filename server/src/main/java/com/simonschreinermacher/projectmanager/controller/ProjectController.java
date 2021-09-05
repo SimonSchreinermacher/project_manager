@@ -81,4 +81,16 @@ public class ProjectController {
         projectRepository.deleteById(Long.parseLong(project_id));
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
+
+    @DeleteMapping("/projects/{project_id}/todos/{todo_id}")
+    public ResponseEntity<Boolean> deleteTodo(@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id){
+        Optional<Project> optionalProject = projectRepository.findById(Long.parseLong(project_id));
+        if(optionalProject.isPresent()){
+            Project project = optionalProject.get();
+            project.removeTodo(Long.parseLong(todo_id));
+            projectRepository.save(project);
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        }
+        return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+    }
 }
