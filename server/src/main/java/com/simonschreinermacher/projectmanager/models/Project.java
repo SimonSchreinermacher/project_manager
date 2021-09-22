@@ -31,4 +31,15 @@ public class Project {
     public void removeTodo(Long todo_id){
         todos =  todos.stream().filter(entry -> !entry.getTodo_id().equals(todo_id)).collect(Collectors.toSet());
     }
+
+    public void editTodo(Todo todo){
+        todos.stream().forEach(entry -> {
+            if(entry.getTodo_id() == todo.getTodo_id()){
+                entry.setCategory(todo.getCategory());
+                entry.setTitle(todo.getTitle());
+                entry.setImportance(todo.getImportance());
+                entry.set_finished(todo.get_finished());
+            }
+        });
+    }
 }

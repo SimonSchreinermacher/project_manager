@@ -93,4 +93,23 @@ public class ProjectController {
         }
         return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
     }
+
+    @PutMapping("/projects/{project_id}/todos/{todo_id}")
+    public ResponseEntity<Boolean> editTodo(@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id, @RequestBody Map<String, Object> payload){
+      String title = payload.get("title").toString();
+      String importance = payload.get("importance").toString();
+      String category = payload.get("category").toString();
+      String is_finished_string = payload.get("is_finished").toString();
+      boolean is_finished = Boolean.parseBoolean(is_finished_string);
+
+      Optional<Project> optionalProject = projectRepository.findById(Long.parseLong(project_id));
+      if(optionalProject.isPresent()){
+          Project project = optionalProject.get();
+          Todo todo = new Todo(Long.parseLong(todo_id), title, importance, category, is_finished);
+          project.editTodo(todo);
+          projectRepository.save(project);
+          return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+      }
+      return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+    }
 }
