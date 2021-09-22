@@ -8,7 +8,7 @@ class Todo extends React.Component {
         event.preventDefault();
         axios.delete("http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id)
         .then((res) => {
-            this.props.history.push("/")
+            window.location.reload();
         })
         .catch((err) => {
             console.log(err);
