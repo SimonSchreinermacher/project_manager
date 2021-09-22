@@ -9,7 +9,7 @@ class CreateTodo extends React.Component {
             title: "",
             importance: "",
             chosenCategory: "",
-            categories: ["somecategory", "another", "evenmore"]
+            categories: ["Feature", "Bug", "Update", "Refactor"]
         };
     }
 
