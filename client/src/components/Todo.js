@@ -28,14 +28,24 @@ class Todo extends React.Component {
     }
 
     render(){
+        let finishButton;
+        if (!this.props.todo._finished){
+            finishButton = <div>
+                <form onSubmit={this.setAsFinished.bind(this)}>
+                    <button type="submit">Finish</button>
+                </form>
+            </div>
+        }
+        else{
+            finishButton = <div></div>
+        }
+
         return(
             <div>
                 <p>Title: {this.props.todo.title}</p>
                 <p>Category: {this.props.todo.category}</p>
                 <p>Importance: {this.props.todo.importance}</p>
-                <form onSubmit={this.setAsFinished.bind(this)}>
-                    <button type="submit">Finish</button>
-                </form>
+                {finishButton}
                 <form onSubmit={this.deleteTodo.bind(this)}>
                     <button type="submit">Delete</button>
                 </form>
