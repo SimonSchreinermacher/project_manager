@@ -50,9 +50,9 @@ class CreateTodo extends React.Component {
                 <h1>Create new TODO:</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <p>Title</p>
-                    <input onChange={e => this.setState({title: e.target.value})}></input>
+                    <input required onChange={e => this.setState({title: e.target.value})}></input>
                     <p>Importance</p>
-                    <select onChange={e => this.setState({importance: e.target.value})}>
+                    <select required onChange={e => this.setState({importance: e.target.value})}>
                         <option selected disabled hidden></option>
                         <option>Minor</option>
                         <option>Medium</option>
@@ -61,7 +61,7 @@ class CreateTodo extends React.Component {
                         <option>Very Serious</option>
                     </select>
                     <p>Set category</p>
-                    <select onChange={e => this.setState({chosenCategory: e.target.value})}>
+                    <select required onChange={e => this.setState({chosenCategory: e.target.value})}>
                         <option selected disabled hidden></option>
                         {allCategories}
                     </select>

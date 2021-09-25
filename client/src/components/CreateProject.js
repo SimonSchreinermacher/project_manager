@@ -44,13 +44,13 @@ class CreateProject extends React.Component {
 
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <p>Name</p>
-                    <input onChange={e => this.setState({name: e.target.value})}></input>
+                    <input required onChange={e => this.setState({name: e.target.value})}></input>
 
                     <p>Description</p>
-                    <textarea onChange={e => this.setState({description: e.target.value})}></textarea>
+                    <textarea required onChange={e => this.setState({description: e.target.value})}></textarea>
 
                     <p>Language</p>
-                    <select onChange={e => this.setState({language: e.target.value})}>
+                    <select required onChange={e => this.setState({language: e.target.value})}>
                         <option selected disabled hidden></option>
                         <option>Python</option>
                         <option>Java</option>
@@ -59,7 +59,7 @@ class CreateProject extends React.Component {
                     </select>
 
                     <p>Deadline</p>
-                    <input type="date" onChange={e => this.setState({deadline: e.target.value})}></input>
+                    <input required type="date" onChange={e => this.setState({deadline: e.target.value})}></input>
 
                     <br></br>
 
