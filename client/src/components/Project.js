@@ -15,7 +15,8 @@ class Project extends React.Component {
             createdOn: "LOADING",
             deadline: "yes",
             todos: [],
-            todos_shown: "Running"
+            todos_shown: "Running",
+            todo_key: 0
         };
     }
 
@@ -72,13 +73,6 @@ class Project extends React.Component {
     }
 
     editProject(){
-        console.log(this.state.id)
-        console.log(this.state.name)
-        console.log(this.state.description)
-        console.log(this.state.deadline)
-        console.log(this.state.createdOn)
-        console.log(this.state.language)
-
         const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline}
         axios.put("http://localhost:8080/projects/" + this.state.id, data)
         .then((res) => {
@@ -90,9 +84,11 @@ class Project extends React.Component {
     }
 
     render(){
+        //TODO: Since Todo has a lifecycle, filtering here cannot be done so easily. Todo now gets a random key to be 
+        //counted as new instance each time. This is not optimal and may need some improvement
         const todo_list = this.state.todos.filter(task => {return (task._finished ^ this.state.todos_shown === "Running")}).map(task => 
-                <div>
-                    <Todo todo = {task} project_id = {this.props.match.params.id}></Todo>
+                <div> 
+                    <Todo key = {Math.floor(Math.random() * 10000000)} todo = {task} project_id = {this.props.match.params.id}></Todo> 
                 </div>
             );
 

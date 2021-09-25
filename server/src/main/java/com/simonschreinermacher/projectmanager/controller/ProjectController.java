@@ -129,7 +129,7 @@ public class ProjectController {
       Optional<Project> optionalProject = projectRepository.findById(Long.parseLong(project_id));
       if(optionalProject.isPresent()){
           Project project = optionalProject.get();
-          Todo todo = new Todo(Long.parseLong(todo_id), title, importance, category, is_finished);
+          Todo todo = new Todo(Long.parseLong(todo_id), title, category, importance, is_finished);
           project.editTodo(todo);
           projectRepository.save(project);
           return new ResponseEntity<Boolean>(true, HttpStatus.OK);
