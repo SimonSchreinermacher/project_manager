@@ -94,6 +94,30 @@ public class ProjectController {
         return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/projects/{project_id}")
+    public ResponseEntity<Boolean> editProject(@PathVariable(value= "project_id") String project_id, @RequestBody Map<String, Object> payload){
+        System.out.println(payload);
+        String name = payload.get("name").toString();
+        String description = payload.get("description").toString();
+        String deadline = payload.get("deadline").toString();
+        String createdOn = payload.get("createdOn").toString();
+        String language = payload.get("language").toString();
+
+        Optional<Project> projectOptional = projectRepository.findById(Long.parseLong(project_id));
+        if(projectOptional.isPresent()){
+            Project project = projectOptional.get();
+            project.setName(name);
+            project.setDescription(description);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            project.setDeadline(LocalDate.parse(deadline, formatter));
+            project.setCreated_on(LocalDate.parse(createdOn, formatter));
+            project.setLanguage(language);
+            projectRepository.save(project);
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        }
+        return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
+    }
+
     @PutMapping("/projects/{project_id}/todos/{todo_id}")
     public ResponseEntity<Boolean> editTodo(@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id, @RequestBody Map<String, Object> payload){
       String title = payload.get("title").toString();

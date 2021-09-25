@@ -9,7 +9,7 @@ class CreateProject extends React.Component {
         this.state = {
             name: "",
             description: "",
-            language: "Python",
+            language: "",
             deadline: ""
         };
     }

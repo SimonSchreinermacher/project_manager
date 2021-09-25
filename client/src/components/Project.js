@@ -1,15 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 import Todo from './Todo.js';
+import EditableInput from './EditableInput.js';
 
 class Project extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            id: "",
             name: "LOADING",
             description: "LOADING",
             language: "LOADING",
+            createdOn: "LOADING",
             deadline: "yes",
             todos: [],
             todos_shown: "Running"
@@ -54,12 +57,32 @@ class Project extends React.Component {
         .then((res) => {
             console.log(res.data);
             this.setState({
+                id: res.data.project_id,
                 name: res.data.name,
                 description: res.data.description,
                 language: res.data.language,
+                createdOn: res.data.created_on,
                 deadline: res.data.deadline,
                 todos: res.data.todos
             });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    editProject(){
+        console.log(this.state.id)
+        console.log(this.state.name)
+        console.log(this.state.description)
+        console.log(this.state.deadline)
+        console.log(this.state.createdOn)
+        console.log(this.state.language)
+
+        const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline}
+        axios.put("http://localhost:8080/projects/" + this.state.id, data)
+        .then((res) => {
+            window.location.reload();
         })
         .catch((err) => {
             console.log(err);
@@ -75,6 +98,7 @@ class Project extends React.Component {
 
         return(
             <div>
+
                 <form onSubmit={this.returnToOverview.bind(this)}>
                     <button type="submit">Back to overview page</button>
                 </form>
@@ -84,9 +108,17 @@ class Project extends React.Component {
                 </form>
                 
                 <h1>{this.state.name}</h1>
-                <p>{this.state.description}</p>
-                <p>Language: {this.state.language}</p>
-                <p>Project has to be finished before: {this.state.deadline}</p>
+                <EditableInput text= {this.state.description} onChange = {text => this.setState({description: text})} onConfirm={this.editProject.bind(this)}></EditableInput>
+                
+                <br></br>
+                <p>Language:</p>
+                <EditableInput text= {this.state.language} onChange = {text => this.setState({description: text})} onConfirm={this.editProject.bind(this)}></EditableInput>
+                
+                <br></br>
+                <p>Project has to be finished before:</p>
+                <EditableInput text= {this.state.deadline} onChange = {text => this.setState({deadline: text})} onConfirm={this.editProject.bind(this)}></EditableInput>
+                
+                <br></br>
                 <h2>TODO:</h2>
                 <form onSubmit={this.addNewTodo.bind(this)}>
                     <button type="submit">Add new</button>
