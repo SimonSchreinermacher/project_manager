@@ -26,24 +26,19 @@ class Todo extends React.Component {
         })
     }
 
-    setAsFinished(event){
+    changeStatus(event){
         event.preventDefault();
-        const data = {title: this.state.title, category: this.state.category, importance: this.state.importance, is_finished: true}
-        axios.put("http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, data)
-        .then((res) => {
-            window.location.reload();
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+        const data = {title: this.state.title, category: this.state.category, importance: this.state.importance, is_finished: !this.state.is_finished}
+        this.editTodo(data);
     }
 
-    componentDidMount() {
-        console.log(this.state.title)
-    }
-
-    editTodo(){
+    confirmManualEditing(){
         const data = {title: this.state.title, category: this.state.category, importance: this.state.importance, is_finished: this.state.is_finished}
+        this.editTodo(data);
+    }
+
+    editTodo(data){
+        console.log("Finished?", this.state.is_finished)
         axios.put("http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, data)
         .then((res) => {
             window.location.reload();
@@ -56,31 +51,30 @@ class Todo extends React.Component {
     render(){
         let finishButton;
         if (!this.props.todo._finished){
-            finishButton = <div>
-                <form onSubmit={this.setAsFinished.bind(this)}>
-                    <button type="submit">Finish</button>
-                </form>
-            </div>
+            finishButton = <button type="submit">Finish</button>
         }
         else{
-            finishButton = <div></div>
+            finishButton = <button type="submit">Unfinish</button>
         }
 
         return(
             <div>
                 <p>Title:</p>
-                <EditableInput text= {this.state.title} onChange = {text => this.setState({title: text})} onConfirm={this.editTodo.bind(this)}></EditableInput>
+                <EditableInput text= {this.state.title} onChange = {text => this.setState({title: text})} onConfirm={this.confirmManualEditing.bind(this)}></EditableInput>
                 
                 <br></br>
                 <p>Category:</p>
-                <EditableInput text= {this.state.category} onChange = {text => this.setState({category: text})} onConfirm={this.editTodo.bind(this)}></EditableInput>
+                <EditableInput text= {this.state.category} onChange = {text => this.setState({category: text})} onConfirm={this.confirmManualEditing.bind(this)}></EditableInput>
 
                 <br></br>
                 <p>Importance:</p>
-                <EditableInput text= {this.state.importance} onChange = {text => this.setState({importance: text})} onConfirm={this.editTodo.bind(this)}></EditableInput>
+                <EditableInput text= {this.state.importance} onChange = {text => this.setState({importance: text})} onConfirm={this.confirmManualEditing.bind(this)}></EditableInput>
 
                 <br></br>
-                {finishButton}
+                <form onSubmit={this.changeStatus.bind(this)}>
+                    {finishButton}
+                </form>
+                
                 <form onSubmit={this.deleteTodo.bind(this)}>
                     <button type="submit">Delete</button>
                 </form>

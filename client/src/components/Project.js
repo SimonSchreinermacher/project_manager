@@ -89,6 +89,7 @@ class Project extends React.Component {
         const todo_list = this.state.todos.filter(task => {return (task._finished ^ this.state.todos_shown === "Running")}).map(task => 
                 <div> 
                     <Todo key = {Math.floor(Math.random() * 10000000)} todo = {task} project_id = {this.props.match.params.id}></Todo> 
+                    <hr></hr>
                 </div>
             );
 
