@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+import {NavLink, withRouter} from 'react-router-dom';
 
-class Home extends React.Component {
+
+class ProjectList extends React.Component {
 
     constructor(props){
         super(props);
@@ -28,19 +30,19 @@ class Home extends React.Component {
     render(){
         const project_list = this.state.projects.map(project => 
             <div key={project.project_id.toString()}>
-                <a href={"/project/" + project.project_id}>{project.name}</a>
+                <NavLink to={"/project/" + project.project_id}>{project.name}</NavLink>
             </div>
             );
 
         return(
         <div>
             <form onSubmit={this.handleSubmit.bind(this)}>
-                <button type= 'submit'>Add new project</button>
+                <button type="submit">Add new project</button>
             </form>
             <h1>Your projects:</h1>
             {project_list}
-        </div>);    
-        }
+        </div>);
+    }
 }
 
-export default Home;
+export default withRouter(ProjectList);

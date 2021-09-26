@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import {withRouter} from 'react-router-dom';
 
 class CreateProject extends React.Component {
 
@@ -27,6 +28,7 @@ class CreateProject extends React.Component {
         axios.post("http://localhost:8080/projects", data)
         .then((res) => {
             this.props.history.push("/")
+            window.location.reload();
         })
         .catch((err) => {
             console.log(err);
@@ -70,4 +72,4 @@ class CreateProject extends React.Component {
     }
 }
 
-export default CreateProject;
+export default withRouter(CreateProject);

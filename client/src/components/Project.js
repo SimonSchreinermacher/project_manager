@@ -1,7 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import Todo from './Todo.js';
+//import Todo from './Todo.js';
 import EditableInput from './EditableInput.js';
+import TodoList from './TodoList.js';
+import {Route} from 'react-router-dom';
+import CreateTodo from './CreateTodo.js';
 
 class Project extends React.Component {
 
@@ -46,6 +49,7 @@ class Project extends React.Component {
         axios.delete("http://localhost:8080/projects/" + this.props.match.params.id)
         .then((res) => {
             this.props.history.push("/")
+            window.location.reload();
         })
         .catch((err) => {
             console.log(err);
@@ -53,23 +57,33 @@ class Project extends React.Component {
         
     }
 
-    componentDidMount(){
+    loadContent(){
         axios.get("http://localhost:8080/projects/" + this.props.match.params.id)
-        .then((res) => {
-            console.log(res.data);
-            this.setState({
-                id: res.data.project_id,
-                name: res.data.name,
-                description: res.data.description,
-                language: res.data.language,
-                createdOn: res.data.created_on,
-                deadline: res.data.deadline,
-                todos: res.data.todos
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+            .then((res) => {
+                console.log(res.data);
+                this.setState({
+                    id: this.props.match.params.id,
+                    name: res.data.name,
+                    description: res.data.description,
+                    language: res.data.language,
+                    createdOn: res.data.created_on,
+                    deadline: res.data.deadline,
+                    todos: res.data.todos
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    componentDidUpdate(){
+        if(this.state.id !== this.props.match.params.id){
+            this.loadContent();
+        }
+    }
+
+    componentDidMount(){
+        this.loadContent();
     }
 
     editProject(){
@@ -86,18 +100,18 @@ class Project extends React.Component {
     render(){
         //TODO: Since Todo has a lifecycle, filtering here cannot be done so easily. Todo now gets a random key to be 
         //counted as new instance each time. This is not optimal and may need some improvement
-        const todo_list = this.state.todos.filter(task => {return (task._finished ^ this.state.todos_shown === "Running")}).map(task => 
+        /*const todo_list = this.state.todos.filter(task => {return (task._finished ^ this.state.todos_shown === "Running")}).map(task => 
                 <div> 
                     <Todo key = {Math.floor(Math.random() * 10000000)} todo = {task} project_id = {this.props.match.params.id}></Todo> 
                     <hr></hr>
                 </div>
-            );
+            );*/
 
         return(
             <div>
 
                 <form onSubmit={this.returnToOverview.bind(this)}>
-                    <button type="submit">Back to overview page</button>
+                    <button type="submit">Hide project details</button>
                 </form>
 
                 <form onSubmit={this.deleteProject.bind(this)}>
@@ -124,7 +138,12 @@ class Project extends React.Component {
                 <form onSubmit={this.changeTodosDisplayed.bind(this)}>
                     <button type="submit">Currently showing {this.state.todos_shown} todos</button>
                 </form>
-                {todo_list}
+                <Route exact path="/project/:id">
+                    <TodoList todos = {this.state.todos} project_id = {this.props.match.params.id} mode= {this.state.todos_shown}/>
+                </Route>
+                <Route path="/project/:id/newtask">
+                    <CreateTodo></CreateTodo>
+                </Route>
             </div>
         );
     }

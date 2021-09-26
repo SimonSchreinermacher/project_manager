@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 
 class CreateTodo extends React.Component {
 
@@ -30,6 +31,7 @@ class CreateTodo extends React.Component {
         axios.post("http://localhost:8080/projects/" + this.props.match.params.id + "/todos", data)
         .then((res) => {
             this.props.history.push("/project/" + this.props.match.params.id)
+            window.location.reload();
         })
         .catch((err) => {
             console.log("err");
@@ -73,4 +75,4 @@ class CreateTodo extends React.Component {
     }
 }
 
-export default CreateTodo;
+export default withRouter(CreateTodo);
