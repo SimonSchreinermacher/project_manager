@@ -33,16 +33,7 @@ class Project extends React.Component {
         this.props.history.push('/');
     }
 
-    changeTodosDisplayed(event){
-        event.preventDefault();
-        if(this.state.todos_shown === "Running"){
-            this.setState({todos_shown: "Finished"});
-        }
-        else{
-            this.setState({todos_shown: "Running"});
-        }
-        console.log(this.state.todos_shown)
-    }
+    
 
     deleteProject(event){
         event.preventDefault();
@@ -134,12 +125,9 @@ class Project extends React.Component {
                 <form onSubmit={this.addNewTodo.bind(this)}>
                     <button type="submit">Add new</button>
                 </form>
-
-                <form onSubmit={this.changeTodosDisplayed.bind(this)}>
-                    <button type="submit">Currently showing {this.state.todos_shown} todos</button>
-                </form>
+                
                 <Route exact path="/project/:id">
-                    <TodoList todos = {this.state.todos} project_id = {this.props.match.params.id} mode= {this.state.todos_shown}/>
+                    <TodoList todos = {this.state.todos} project_id = {this.props.match.params.id}/>
                 </Route>
                 <Route path="/project/:id/newtask">
                     <CreateTodo></CreateTodo>

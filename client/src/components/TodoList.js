@@ -6,19 +6,30 @@ class TodoList extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            filter: "All"
+            filter_category: "All",
+            filter_status: "Running"
+        }
+    }
+
+    changeTodosDisplayed(event){
+        event.preventDefault();
+        if(this.state.filter_status === "Running"){
+            this.setState({filter_status: "Finished"});
+        }
+        else{
+            this.setState({filter_status: "Running"});
         }
     }
 
     render(){
         let filtered_todos;
-        if(this.state.filter === "All"){
+        if(this.state.filter_category === "All"){
             filtered_todos = this.props.todos;
         }
         else{
-            filtered_todos = this.props.todos.filter(task => {return task.category === this.state.filter})
+            filtered_todos = this.props.todos.filter(task => {return task.category === this.state.filter_category})
         }
-        const todo_list = filtered_todos.filter(task => {return (task._finished ^ this.props.mode === "Running")}).map(task => 
+        const todo_list = filtered_todos.filter(task => {return (task._finished ^ this.state.filter_status === "Running")}).map(task => 
             <div> 
                 <Todo key = {Math.floor(Math.random() * 10000000)} todo = {task} project_id = {this.props.project_id}></Todo> 
                 <hr></hr>
@@ -26,8 +37,12 @@ class TodoList extends React.Component {
         );
         return(
             <div>
+                <form onSubmit={this.changeTodosDisplayed.bind(this)}>
+                    <button type="submit">Currently showing {this.state.filter_status} todos</button>
+                </form>
+
                 <p>Filter:</p>
-                <select onChange={e => this.setState({filter: e.target.value})}>
+                <select onChange={e => this.setState({filter_category: e.target.value})}>
                     <option>All</option>
                     <option>Feature</option>
                     <option>Bug</option>
