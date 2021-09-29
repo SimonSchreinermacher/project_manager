@@ -22,6 +22,22 @@ class TodoList extends React.Component {
     }
 
     render(){
+
+        const order_of_importance = {"Minor": 5, "Medium": 4, "Major": 3, "Serious": 2, "Very Serious": 1}
+        function compare_importance(a, b){ //a greater importance than b => a > b, a lesser importance than b => a < b
+            if(order_of_importance[a.importance] > order_of_importance[b.importance]){
+                return 1; //sort() interprets this as "a > b"
+            }
+            else if(order_of_importance[b.importance] > order_of_importance[a.importance]){
+                return -1; //sort() interprets this as "a < b"
+            }
+            else{
+                return 0; //sort() interprets this as "a = b"
+            }
+        }
+
+        this.props.todos.sort(compare_importance); //sorts by result of compare_importance() ascending => Higher importance will come first
+
         let filtered_todos;
         if(this.state.filter_category === "All"){
             filtered_todos = this.props.todos;
@@ -35,6 +51,8 @@ class TodoList extends React.Component {
                 <hr></hr>
             </div>
         );
+
+        
         return(
             <div>
                 <form onSubmit={this.changeTodosDisplayed.bind(this)}>
