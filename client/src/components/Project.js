@@ -121,6 +121,10 @@ class Project extends React.Component {
                 <EditableInput text= {this.state.deadline} onChange = {text => this.setState({deadline: text})} onConfirm={this.editProject.bind(this)}></EditableInput>
                 
                 <br></br>
+                <p>Created on:</p>
+                <p>{this.state.createdOn}</p>
+
+                <br></br>
                 <h2>TODO:</h2>
                 <form onSubmit={this.addNewTodo.bind(this)}>
                     <button type="submit">Add new</button>
