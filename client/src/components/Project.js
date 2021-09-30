@@ -5,6 +5,7 @@ import EditableInput from './EditableInput.js';
 import TodoList from './TodoList.js';
 import {Route} from 'react-router-dom';
 import CreateTodo from './CreateTodo.js';
+import {isValidToken} from './AuthenticationManager.js';
 
 class Project extends React.Component {
 
@@ -39,7 +40,7 @@ class Project extends React.Component {
         event.preventDefault();
         axios.delete("http://localhost:8080/projects/" + this.props.match.params.id)
         .then((res) => {
-            this.props.history.push("/")
+            this.props.history.push("/home")
             window.location.reload();
         })
         .catch((err) => {
@@ -49,7 +50,8 @@ class Project extends React.Component {
     }
 
     loadContent(){
-        axios.get("http://localhost:8080/projects/" + this.props.match.params.id)
+        if(isValidToken(localStorage.getItem("token"))){
+            axios.get("http://localhost:8080/projects/" + this.props.match.params.id)
             .then((res) => {
                 console.log(res.data);
                 this.setState({
@@ -65,6 +67,10 @@ class Project extends React.Component {
             .catch((err) => {
                 console.log(err);
             })
+        }
+        else{
+            this.props.history.push("/login");
+        }  
     }
 
     componentDidUpdate(){

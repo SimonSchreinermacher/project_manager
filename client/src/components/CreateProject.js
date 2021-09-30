@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
+import {isValidToken} from './AuthenticationManager.js';
 
 class CreateProject extends React.Component {
 
@@ -33,8 +34,12 @@ class CreateProject extends React.Component {
         .catch((err) => {
             console.log(err);
         })
+    }
 
-        
+    componentDidMount() {
+        if(!isValidToken(localStorage.getItem("token"))){
+            this.props.history.push("/login")
+        }
     }
 
     render(){

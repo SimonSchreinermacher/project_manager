@@ -2,6 +2,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ProjectList from './components/ProjectList.js'
 import CreateProject from './components/CreateProject.js'
 import Project from './components/Project.js'
+import Login from './components/Login.js';
+import Register from './components/Register.js';
 //import CreateTodo from './components/CreateTodo.js'
 import './App.css';
 import './components/styles.css';
@@ -25,18 +27,21 @@ function App(){
   return(
     <div>
       <Router>
-      <div class="body">
+        <div class="body">
           <div class="left">
+            <Switch>
+              <Route path="/login" component={Login}></Route>
+              <Route path="/register" component={Register}></Route>
               <Route path="/" component= {ProjectList}></Route>
+            </Switch>
           </div>
-          
           <div class="right">
             <Switch>
               <Route path="/create" component={CreateProject}></Route>
               <Route path="/project/:id" component={Project}></Route>
             </Switch>
           </div>
-      </div>
+        </div>
       </Router>
     </div>
 );
