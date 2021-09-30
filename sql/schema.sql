@@ -18,3 +18,9 @@ CREATE TABLE IF NOT EXISTS todo(
 	is_finished BOOLEAN,
 	project INTEGER REFERENCES project(project_id)
 );
+
+CREATE TABLE IF NOT EXISTS user(
+	user_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(255),
+	password VARCHAR(255)
+);
