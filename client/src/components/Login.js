@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 class Login extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class Login extends React.Component {
     render(){
         return(
             <div>
-                <p>Please log in!</p>
+                <p>Login with existing account:</p>
                 <form onSubmit={this.handleLogin.bind(this)}>
                     <p>Enter username</p>
                     <input onChange={e => this.setState({input_name: e.target.value})}></input>
@@ -38,6 +39,7 @@ class Login extends React.Component {
                     <input onChange={e => this.setState({input_password: e.target.value})}></input>
                     <button type="submit">Login</button>
                 </form>
+                <NavLink to="/register">Dont have an account? Click here</NavLink>
             </div>
         );
     }

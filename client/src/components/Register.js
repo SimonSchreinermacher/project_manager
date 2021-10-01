@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {NavLink} from 'react-router-dom';
 
 class Register extends React.Component{
     constructor(props){
@@ -34,6 +35,7 @@ class Register extends React.Component{
                 <input onChange={e => this.setState({password: e.target.value})}></input>
                 <button type="submit">Register new account</button>
             </form>
+            <NavLink to="/login">Already have an account? Click here</NavLink>
         </div>
         );
     }
