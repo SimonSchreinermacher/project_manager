@@ -7,6 +7,7 @@ import Register from './components/Register.js';
 //import CreateTodo from './components/CreateTodo.js'
 import './App.css';
 import './components/styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 /*function App() {
   return (

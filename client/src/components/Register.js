@@ -1,13 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 import {NavLink} from 'react-router-dom';
+import {Alert} from 'react-bootstrap';
 
 class Register extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            error_message: ""
         }
     }
 
@@ -19,12 +21,21 @@ class Register extends React.Component{
             this.props.history.push("/login");
         })
         .catch((err) => {
+            if(err.response.status === 409){
+                this.setState({error_message: "Username already in use!"})
+            }
             console.log(err);
         })
     }
 
     render(){
+        let errorAlert;
+        if(this.state.error_message !== ""){
+            errorAlert = <Alert variant="danger">{this.state.error_message}</Alert>
+        } 
+
         return(<div>
+            {errorAlert}
             <p>Register new account:</p>
             <form onSubmit={this.handleRegister.bind(this)}>
                 <p>Username:</p>

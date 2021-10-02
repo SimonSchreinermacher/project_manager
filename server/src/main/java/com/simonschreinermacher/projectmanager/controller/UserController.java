@@ -55,9 +55,15 @@ public class UserController {
         String username = payload.get("username").toString();
         String password = payload.get("password").toString();
         try{
-            User user = new User(null, username, new BCryptPasswordEncoder().encode(password));
-            userRepository.save(user);
-            return new ResponseEntity<String>("Saved new user " + username, HttpStatus.OK);
+            if(userRepository.findByUsername(username) == null){
+                User user = new User(null, username, new BCryptPasswordEncoder().encode(password));
+                userRepository.save(user);
+                return new ResponseEntity<String>("Saved new user " + username, HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<String>("User " + username + " already exists", HttpStatus.CONFLICT);
+            }
+
         }
         catch(Exception e){
             e.printStackTrace();
