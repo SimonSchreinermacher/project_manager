@@ -26,13 +26,18 @@ class CreateProject extends React.Component {
         const createdOn = moment().format().slice(0,10); //Generates a string of current time in format yyyy-mm-dd
 
         const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: createdOn, deadline: this.state.deadline}
-        axios.post("http://localhost:8080/projects", data)
-        .then((res) => {
+        axios.all([
+            axios.post("http://localhost:8080/refreshtoken", {token: localStorage.getItem("token")}),
+            axios.post("http://localhost:8080/projects", data)
+        ])
+        .then(axios.spread((res1, res2) => {
+            localStorage.setItem("token", res1.data)
             this.props.history.push("/")
             window.location.reload();
-        })
+        }))
         .catch((err) => {
             console.log(err);
+            this.props.history.push("/login")
         })
     }
 

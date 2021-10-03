@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {NavLink, withRouter} from 'react-router-dom';
-import {authToken, isValidToken} from './AuthenticationManager.js';
+import {authToken} from './AuthenticationManager.js';
 
 
 class ProjectList extends React.Component {
@@ -25,20 +25,19 @@ class ProjectList extends React.Component {
     }
 
     componentDidMount(){
-        console.log(localStorage.getItem("token"))
-        if(isValidToken(localStorage.getItem("token"))){
-            authToken(localStorage.getItem("token"));
+        authToken(localStorage.getItem("token"));
+        axios.all([
+            axios.post("http://localhost:8080/refreshtoken", {token: localStorage.getItem("token")}),
             axios.get("http://localhost:8080/projects")
-            .then((res) => {
-                this.setState({projects: res.data});
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-        }
-        else{
+        ])
+        .then(axios.spread((res1, res2) => {
+            localStorage.setItem("token", res1.data)
+            this.setState({projects: res2.data})
+        }))
+        .catch((err) => {
+            console.log(err);
             this.props.history.push("/login")
-        }
+        })
         
     }
 

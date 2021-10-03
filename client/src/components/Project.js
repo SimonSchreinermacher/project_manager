@@ -5,7 +5,6 @@ import EditableInput from './EditableInput.js';
 import TodoList from './TodoList.js';
 import {Route} from 'react-router-dom';
 import CreateTodo from './CreateTodo.js';
-import {isValidToken} from './AuthenticationManager.js';
 
 class Project extends React.Component {
 
@@ -38,39 +37,44 @@ class Project extends React.Component {
 
     deleteProject(event){
         event.preventDefault();
-        axios.delete("http://localhost:8080/projects/" + this.props.match.params.id)
-        .then((res) => {
-            this.props.history.push("/home")
+        axios.all([
+            axios.post("http://localhost:8080/refreshtoken", {token: localStorage.getItem("token")}),
+            axios.delete("http://localhost:8080/projects/" + this.props.match.params.id)
+        ])
+        .then(axios.spread((res1, res2) => {
+            localStorage.setItem("token", res1.data)
+            this.props.history.push("/")
             window.location.reload();
-        })
+        }))
         .catch((err) => {
             console.log(err);
+            this.props.history.push("/login")
         })
         
     }
 
     loadContent(){
-        if(isValidToken(localStorage.getItem("token"))){
+        axios.all([
+            axios.post("http://localhost:8080/refreshtoken", {token: localStorage.getItem("token")}),
             axios.get("http://localhost:8080/projects/" + this.props.match.params.id)
-            .then((res) => {
-                console.log(res.data);
-                this.setState({
-                    id: this.props.match.params.id,
-                    name: res.data.name,
-                    description: res.data.description,
-                    language: res.data.language,
-                    createdOn: res.data.created_on,
-                    deadline: res.data.deadline,
-                    todos: res.data.todos
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-        }
-        else{
-            this.props.history.push("/login");
-        }  
+        ])
+        .then(axios.spread((res1, res2) => {
+            localStorage.setItem("token", res1.data)
+            console.log(res2.data);
+            this.setState({
+                id: this.props.match.params.id,
+                name: res2.data.name,
+                description: res2.data.description,
+                language: res2.data.language,
+                createdOn: res2.data.created_on,
+                deadline: res2.data.deadline,
+                todos: res2.data.todos
+            });
+        }))
+        .catch((err) => {
+            console.log(err);
+            this.props.history.push("/login")
+        })
     }
 
     componentDidUpdate(){
@@ -85,12 +89,17 @@ class Project extends React.Component {
 
     editProject(){
         const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline}
-        axios.put("http://localhost:8080/projects/" + this.state.id, data)
-        .then((res) => {
+        axios.all([
+            axios.post("http://localhost:8080/refreshtoken", {token: localStorage.getItem("token")}),
+            axios.put("http://localhost:8080/projects/" + this.state.id, data)
+        ])
+        .then(axios.spread((res1, res2) => {
+            localStorage.setItem("token", res1.data)
             window.location.reload();
-        })
+        }))
         .catch((err) => {
             console.log(err);
+            this.props.history.push("/login")
         })
     }
 

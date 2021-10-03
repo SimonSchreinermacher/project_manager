@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +70,22 @@ public class UserController {
             e.printStackTrace();
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<String> refreshJwtToken(@RequestBody Map<String, Object> payload){
+        String activeToken = payload.get("token").toString();
+        if(provider.validToken(activeToken)){
+            String username = provider.getClaims(activeToken).getSubject();
+            String newToken = provider.createToken(username);
+
+            System.out.println("===========");
+            System.out.println("Token expires: " + provider.getClaims(newToken).getExpiration());
+            System.out.println("Now: " + new Date());
+            System.out.println("===========");
+            return new ResponseEntity<String>(newToken, HttpStatus.OK);
+        }
+        return new ResponseEntity<String>("Token expired", HttpStatus.UNAUTHORIZED);
     }
 
 }

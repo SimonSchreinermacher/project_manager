@@ -17,12 +17,17 @@ class Todo extends React.Component {
 
     deleteTodo(event){
         event.preventDefault();
-        axios.delete("http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id)
-        .then((res) => {
+        axios.all([
+            axios.post("http://localhost:8080/refreshtoken", {token: localStorage.getItem("token")}),
+            axios.delete("http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id)
+        ])
+        .then(axios.spread((res1, res2) => {
+            localStorage.setItem("token", res1.data)
             window.location.reload();
-        })
+        }))
         .catch((err) => {
             console.log(err);
+            this.props.history.push("/login")
         })
     }
 
@@ -39,12 +44,17 @@ class Todo extends React.Component {
 
     editTodo(data){
         console.log("Finished?", this.state.is_finished)
-        axios.put("http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, data)
-        .then((res) => {
+        axios.all([
+            axios.post("http://localhost:8080/refreshtoken", {token: localStorage.getItem("token")}),
+            axios.put("http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, data)
+        ])
+        .then(axios.spread((res1, res2) => {
+            localStorage.setItem("token", res1.data)
             window.location.reload();
-        })
+        }))
         .catch((err) => {
             console.log(err);
+            this.props.history.push("/login")
         })
     }
 

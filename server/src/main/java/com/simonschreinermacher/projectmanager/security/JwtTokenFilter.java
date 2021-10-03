@@ -25,8 +25,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         if(token != null){
             try{
                 Claims claims = provider.getClaims(token);
-                System.out.println("Token expires: " + claims.getExpiration());
-                System.out.println("Now: " + new Date());
                 if(!claims.getExpiration().before(new Date())){
                     Authentication authentication = provider.getAuthentication(claims.getSubject());
                     if(authentication.isAuthenticated()){

@@ -21,7 +21,7 @@ import java.util.Date;
 public class JwtTokenProvider implements Serializable {
     private String secret = "testsecret"; //TODO: PUT IN HIDDEN ENV
 
-    private long tokenExpiration = 1000 * 60 * 10;
+    private long tokenExpiration = 1000 * 60;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -47,5 +47,18 @@ public class JwtTokenProvider implements Serializable {
     public Authentication getAuthentication(String username){
         UserDetails details = userDetailsService.loadUserByUsername(username);
         return new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), details.getAuthorities());
+    }
+
+    public boolean validToken(String token){
+        try{
+            Claims claims = getClaims(token);
+            if(!claims.getExpiration().before(new Date())){
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 }
