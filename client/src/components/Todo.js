@@ -62,15 +62,30 @@ class Todo extends React.Component {
         return(
             <div>
                 <p>Title:</p>
-                <EditableInput text= {this.state.title} onChange = {text => this.setState({title: text})} onConfirm={this.confirmManualEditing.bind(this)}></EditableInput>
+                <EditableInput 
+                    type="text" 
+                    text= {this.state.title} 
+                    onChange = {text => this.setState({title: text})} 
+                    onConfirm={this.confirmManualEditing.bind(this)}>
+                </EditableInput>
                 
                 <br></br>
                 <p>Category:</p>
-                <EditableInput text= {this.state.category} onChange = {text => this.setState({category: text})} onConfirm={this.confirmManualEditing.bind(this)}></EditableInput>
+                <EditableInput 
+                    type="text" 
+                    text= {this.state.category} 
+                    onChange = {text => this.setState({category: text})} 
+                    onConfirm={this.confirmManualEditing.bind(this)}>
+                </EditableInput>
 
                 <br></br>
                 <p>Importance:</p>
-                <EditableInput text= {this.state.importance} onChange = {text => this.setState({importance: text})} onConfirm={this.confirmManualEditing.bind(this)}></EditableInput>
+                <EditableInput 
+                    type="text" 
+                    text= {this.state.importance} 
+                    onChange = {text => this.setState({importance: text})} 
+                    onConfirm={this.confirmManualEditing.bind(this)}>
+                </EditableInput>
 
                 <br></br>
                 <form onSubmit={this.changeStatus.bind(this)}>

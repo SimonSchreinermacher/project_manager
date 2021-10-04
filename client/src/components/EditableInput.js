@@ -31,7 +31,7 @@ class EditableInput extends React.Component{
         if (this.state.editActive){
             html = <div>
                 <form>
-                    <input defaultValue={this.props.text} onChange={e => this.onChange(e)}></input>
+                    <input type = {this.props.type} defaultValue={this.props.text} onChange={e => this.onChange(e)}></input>
                     <button onClick= {this.confirmEdit.bind(this)}>Confirm changes</button>
                 </form>
             </div>

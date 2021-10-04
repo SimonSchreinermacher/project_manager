@@ -109,15 +109,30 @@ class Project extends React.Component {
                 </form>
                 
                 <h1>{this.state.name}</h1>
-                <EditableInput text= {this.state.description} onChange = {text => this.setState({description: text})} onConfirm={this.editProject.bind(this)}></EditableInput>
+                <EditableInput 
+                    type="text" 
+                    text= {this.state.description} 
+                    onChange = {text => this.setState({description: text})} 
+                    onConfirm={this.editProject.bind(this)}>
+                </EditableInput>
                 
                 <br></br>
                 <p>Language:</p>
-                <EditableInput text= {this.state.language} onChange = {text => this.setState({description: text})} onConfirm={this.editProject.bind(this)}></EditableInput>
+                <EditableInput 
+                    type="text" 
+                    text= {this.state.language} 
+                    onChange = {text => this.setState({description: text})} 
+                    onConfirm={this.editProject.bind(this)}>
+                </EditableInput>
                 
                 <br></br>
                 <p>Project has to be finished before:</p>
-                <EditableInput text= {this.state.deadline} onChange = {text => this.setState({deadline: text})} onConfirm={this.editProject.bind(this)}></EditableInput>
+                <EditableInput 
+                    type="date" 
+                    text= {this.state.deadline} 
+                    onChange = {text => this.setState({deadline: text})} 
+                    onConfirm={this.editProject.bind(this)}>
+                </EditableInput>
                 
                 <br></br>
                 <p>Created on:</p>
