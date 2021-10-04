@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
-import {authToken} from './AuthenticationManager.js';
-import {axiosAuthenticatedCall} from './AxiosManager.js';
+import {authToken} from '../services/AuthenticationManager.js';
+import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
 
 
 class ProjectList extends React.Component {

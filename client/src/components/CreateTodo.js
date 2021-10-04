@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
-import {axiosAuthenticatedCall} from './AxiosManager.js';
+import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
 
 class CreateTodo extends React.Component {
 

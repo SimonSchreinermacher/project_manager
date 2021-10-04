@@ -1,7 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import EditableInput from './EditableInput.js';
-import {axiosAuthenticatedCall} from './AxiosManager.js';
+import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
 
 class Todo extends React.Component {
 

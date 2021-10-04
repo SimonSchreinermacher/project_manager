@@ -4,7 +4,7 @@ import EditableInput from './EditableInput.js';
 import TodoList from './TodoList.js';
 import {Route} from 'react-router-dom';
 import CreateTodo from './CreateTodo.js';
-import {axiosAuthenticatedCall} from './AxiosManager.js'
+import {axiosAuthenticatedCall} from '../services/AxiosManager.js'
 
 class Project extends React.Component {
 

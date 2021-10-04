@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
-import {isValidToken} from './AuthenticationManager.js';
-import {axiosAuthenticatedCall} from './AxiosManager.js';
+import {isValidToken} from '../services/AuthenticationManager.js';
+import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
 
 class CreateProject extends React.Component {
 
