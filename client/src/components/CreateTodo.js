@@ -1,6 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import {withRouter} from 'react-router-dom';
+import {axiosAuthenticatedCall} from './AxiosManager.js';
 
 class CreateTodo extends React.Component {
 
@@ -26,16 +26,15 @@ class CreateTodo extends React.Component {
         console.log(this.state.chosenCategory);
 
         const data = {title: this.state.title, importance: this.state.importance, category: this.state.chosenCategory};
-
-        //DATABASE CALL
-        axios.post("http://localhost:8080/projects/" + this.props.match.params.id + "/todos", data)
-        .then((res) => {
+        function onSuccess(res){
             this.props.history.push("/project/" + this.props.match.params.id)
             window.location.reload();
-        })
-        .catch((err) => {
-            console.log("err");
-        })
+        }
+        function onError(err){
+            console.log(err);
+            this.props.history.push("/login");
+        }
+        axiosAuthenticatedCall("post", "http://localhost:8080/projects/" + this.props.match.params.id + "/todos", data, onSuccess.bind(this), onError.bind(this))
     }
 
     render(){
