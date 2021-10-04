@@ -1,6 +1,7 @@
 import React from 'react';
 //import Todo from './Todo.js';
-import EditableInput from './EditableInput.js';
+import EditableInput from './EditableComponents/EditableInput.js';
+import EditableDropdown from './EditableComponents/EditableDropdown.js';
 import TodoList from './TodoList.js';
 import {Route} from 'react-router-dom';
 import CreateTodo from './CreateTodo.js';
@@ -118,12 +119,12 @@ class Project extends React.Component {
                 
                 <br></br>
                 <p>Language:</p>
-                <EditableInput 
-                    type="text" 
-                    text= {this.state.language} 
-                    onChange = {text => this.setState({description: text})} 
+                <EditableDropdown 
+                    selected = {this.state.language} 
+                    options = {["Python", "Java", "JavaScript", "C"]}
+                    onChange = {selected => this.setState({language: selected})} 
                     onConfirm={this.editProject.bind(this)}>
-                </EditableInput>
+                </EditableDropdown>
                 
                 <br></br>
                 <p>Project has to be finished before:</p>
