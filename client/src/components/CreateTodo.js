@@ -1,6 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
+import {getUsernameFromToken} from '../services/AuthenticationManager.js';
 
 class CreateTodo extends React.Component {
 
@@ -24,6 +25,7 @@ class CreateTodo extends React.Component {
         console.log(this.state.title);
         console.log(this.state.importance);
         console.log(this.state.chosenCategory);
+        const username = getUsernameFromToken(localStorage.getItem("token"))
 
         const data = {title: this.state.title, importance: this.state.importance, category: this.state.chosenCategory};
         function onSuccess(res){
@@ -34,7 +36,7 @@ class CreateTodo extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("post", "http://localhost:8080/projects/" + this.props.match.params.id + "/todos", data, onSuccess.bind(this), onError.bind(this))
+        axiosAuthenticatedCall("post", "http://localhost:8080/" + username + "/projects/" + this.props.match.params.id + "/todos", data, onSuccess.bind(this), onError.bind(this))
     }
 
     render(){

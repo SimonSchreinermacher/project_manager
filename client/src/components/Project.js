@@ -6,6 +6,7 @@ import TodoList from './TodoList.js';
 import {Route} from 'react-router-dom';
 import CreateTodo from './CreateTodo.js';
 import {axiosAuthenticatedCall} from '../services/AxiosManager.js'
+import {getUsernameFromToken} from '../services/AuthenticationManager.js';
 
 class Project extends React.Component {
 
@@ -36,6 +37,8 @@ class Project extends React.Component {
 
     deleteProject(event){
         event.preventDefault();
+        const username = getUsernameFromToken(localStorage.getItem("token"))
+
         function onSuccess(res){
             this.props.history.push("/")
             window.location.reload();
@@ -44,10 +47,12 @@ class Project extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("delete", "http://localhost:8080/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
+        axiosAuthenticatedCall("delete", "http://localhost:8080/" + username + "/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
     }
 
     loadContent(){
+        const username = getUsernameFromToken(localStorage.getItem("token"))
+
         function onSuccess(res){
             this.setState({
                 id: this.props.match.params.id,
@@ -63,7 +68,7 @@ class Project extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("get", "http://localhost:8080/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
+        axiosAuthenticatedCall("get", "http://localhost:8080/" + username + "/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
     }
 
     componentDidUpdate(){
@@ -77,6 +82,8 @@ class Project extends React.Component {
     }
 
     editProject(){
+        const username = getUsernameFromToken(localStorage.getItem("token"))
+
         const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline}
         function onSuccess(res){
             window.location.reload();
@@ -85,7 +92,7 @@ class Project extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("put", "http://localhost:8080/projects/" + this.state.id, data, onSuccess.bind(this), onError.bind(this))
+        axiosAuthenticatedCall("put", "http://localhost:8080/" + username + "/projects/" + this.state.id, data, onSuccess.bind(this), onError.bind(this))
     }
 
     render(){

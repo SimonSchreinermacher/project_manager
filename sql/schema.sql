@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS project(
 	description VARCHAR(255),
 	language VARCHAR(255),
 	created_on DATE,
-	deadline DATE
+	deadline DATE,
+	user INTEGER REFERENCES user(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS todo(

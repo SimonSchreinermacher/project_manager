@@ -21,7 +21,7 @@ import java.util.Date;
 public class JwtTokenProvider implements Serializable {
     private String secret = "testsecret"; //TODO: PUT IN HIDDEN ENV
 
-    private long tokenExpiration = 1000 * 60;
+    private long tokenExpiration = 1000 * 60 * 10;
 
     @Autowired
     private UserDetailsService userDetailsService;

@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import EditableInput from './EditableComponents/EditableInput.js';
 import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
+import {getUsernameFromToken} from '../services/AuthenticationManager.js';
 
 class Todo extends React.Component {
 
@@ -17,6 +18,8 @@ class Todo extends React.Component {
 
     deleteTodo(event){
         event.preventDefault();
+        const username = getUsernameFromToken(localStorage.getItem("token"))
+
         function onSuccess(res){
             window.location.reload(); 
         }
@@ -24,7 +27,7 @@ class Todo extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("delete", "http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, [], onSuccess.bind(this), onError.bind(this))
+        axiosAuthenticatedCall("delete", "http://localhost:8080/" + username + "/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, [], onSuccess.bind(this), onError.bind(this))
     }
 
     changeStatus(event){
@@ -39,6 +42,8 @@ class Todo extends React.Component {
     }
 
     editTodo(data){
+        const username = getUsernameFromToken(localStorage.getItem("token"))
+
         console.log("Finished?", this.state.is_finished)
         function onSuccess(res){
             window.location.reload();
@@ -47,7 +52,7 @@ class Todo extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("put", "http://localhost:8080/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, data, onSuccess.bind(this), onError.bind(this));
+        axiosAuthenticatedCall("put", "http://localhost:8080/" + username + "/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, data, onSuccess.bind(this), onError.bind(this));
     }
 
     render(){

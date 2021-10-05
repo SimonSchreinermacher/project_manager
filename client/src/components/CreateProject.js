@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
-import {isValidToken} from '../services/AuthenticationManager.js';
+import {isValidToken, getUsernameFromToken} from '../services/AuthenticationManager.js';
 import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
 
 class CreateProject extends React.Component {
@@ -23,8 +23,9 @@ class CreateProject extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        const createdOn = moment().format().slice(0,10); //Generates a string of current time in format yyyy-mm-dd
+        const username = getUsernameFromToken(localStorage.getItem("token"))
 
+        const createdOn = moment().format().slice(0,10); //Generates a string of current time in format yyyy-mm-dd
         const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: createdOn, deadline: this.state.deadline}
         function onSuccess(res){
             this.props.history.push("/")
@@ -34,7 +35,7 @@ class CreateProject extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("post", "http://localhost:8080/projects", data, onSuccess.bind(this), onError.bind(this))
+        axiosAuthenticatedCall("post", "http://localhost:8080/" + username + "/projects", data, onSuccess.bind(this), onError.bind(this))
     }
 
     componentDidMount() {

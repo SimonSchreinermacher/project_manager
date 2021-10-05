@@ -17,3 +17,11 @@ export function isValidToken(token){
     }
     
 }
+
+export function getUsernameFromToken(token){
+    if(token){
+        const {sub} = jwt.decode(token)
+        return sub;
+    }
+    return null;
+}
