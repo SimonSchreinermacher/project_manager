@@ -29,8 +29,6 @@ public class UserController {
 
     @GetMapping("/{username}/projects")
     public Set<Project> getAllProjects(@PathVariable(value="username") String username){
-        //List<Project> allProjects = projectRepository.findAll();
-        //return allProjects;
         User user = userRepository.findByUsername(username);
         if(user == null){
             throw new ResourceNotFoundException("Invalid user " + username);
@@ -41,12 +39,6 @@ public class UserController {
 
     @GetMapping("/{username}/projects/{project_id}")
     public ResponseEntity<Project> getProjectById(@PathVariable(value = "project_id") Long project_id, @PathVariable(value="username") String username){
-        /*Optional<Project> project = projectRepository.findById(project_id);
-        if(project.isPresent()){
-            return new ResponseEntity<Project>(project.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);*/
-
         User user = userRepository.findByUsername(username);
         if(user == null){
             throw new ResourceNotFoundException("Invalid user " + username);
@@ -64,7 +56,6 @@ public class UserController {
             throw new ResourceNotFoundException("Invalid user " + username);
         }
 
-
         Set<Todo> todos = new HashSet<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -79,8 +70,8 @@ public class UserController {
         LocalDate deadline = LocalDate.parse(deadline_string, formatter);
 
         Project project = new Project(null, name, description, language, createdOn, deadline, todos);
-        //projectRepository.save(project);
         user.addProject(project);
+
         userRepository.save(user);
 
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
@@ -93,31 +84,20 @@ public class UserController {
             throw new ResourceNotFoundException("Invalid user " + username);
         }
 
-
         String title = payload.get("title").toString();
         String importance = payload.get("importance").toString();
         String category = payload.get("category").toString();
 
         Todo todo = new Todo(null, title, category, importance, false);
 
-        /*Optional<Project> projectOptional = projectRepository.findById(Long.parseLong(project_id));
-        if(projectOptional.isPresent()){
-            Project project = projectOptional.get();
-            project.addTodo(todo);
-            projectRepository.save(project);
-            return new ResponseEntity<Boolean>(true, HttpStatus.OK);*/
         Project project = user.findProjectById(Long.parseLong(project_id));
         project.addTodo(todo);
         userRepository.save(user);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-        //}
-
-        //return new ResponseEntity<Boolean>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{username}/projects/{project_id}")
     public ResponseEntity<Boolean> deleteProject(@PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id){
-        //projectRepository.deleteById(Long.parseLong(project_id));
         User user = userRepository.findByUsername(username);
         if(user == null){
             throw new ResourceNotFoundException("Invalid user " + username);
@@ -130,14 +110,6 @@ public class UserController {
 
     @DeleteMapping("/{username}/projects/{project_id}/todos/{todo_id}")
     public ResponseEntity<Boolean> deleteTodo(@PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id){
-        /*Optional<Project> optionalProject = projectRepository.findById(Long.parseLong(project_id));
-        if(optionalProject.isPresent()){
-            Project project = optionalProject.get();
-            project.removeTodo(Long.parseLong(todo_id));
-            projectRepository.save(project);
-            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-        }
-        return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);*/
         User user = userRepository.findByUsername(username);
         if(user == null){
             throw new ResourceNotFoundException("Invalid user " + username);
@@ -167,19 +139,6 @@ public class UserController {
         LocalDate createdOn = LocalDate.parse(createdOnString, formatter);
         LocalDate deadline = LocalDate.parse(deadlineString, formatter);
 
-        /*Optional<Project> projectOptional = projectRepository.findById(Long.parseLong(project_id));
-        if(projectOptional.isPresent()){
-            Project project = projectOptional.get();
-            project.setName(name);
-            project.setDescription(description);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            project.setDeadline(LocalDate.parse(deadline, formatter));
-            project.setCreated_on(LocalDate.parse(createdOn, formatter));
-            project.setLanguage(language);
-            projectRepository.save(project);
-            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-        }
-        return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);*/
         Project project = user.findProjectById(Long.parseLong(project_id));
         Project updatedProject = new Project(Long.parseLong(project_id), name, description, language, createdOn, deadline, project.getTodos());
         user.editProject(updatedProject);
@@ -200,15 +159,6 @@ public class UserController {
       String is_finished_string = payload.get("is_finished").toString();
       boolean is_finished = Boolean.parseBoolean(is_finished_string);
 
-      /*Optional<Project> optionalProject = projectRepository.findById(Long.parseLong(project_id));
-      if(optionalProject.isPresent()){
-          Project project = optionalProject.get();
-          Todo todo = new Todo(Long.parseLong(todo_id), title, category, importance, is_finished);
-          project.editTodo(todo);
-          projectRepository.save(project);
-          return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-      }
-      return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);*/
       Project project = user.findProjectById(Long.parseLong(project_id));
       Todo updatedTodo = new Todo(Long.parseLong(todo_id), title, category, importance, is_finished);
       project.editTodo(updatedTodo);
