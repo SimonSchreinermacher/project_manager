@@ -1,5 +1,6 @@
 package com.simonschreinermacher.projectmanager.models;
 
+import com.simonschreinermacher.projectmanager.error.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -26,6 +27,10 @@ public class User {
 
     public Project findProjectById(Long project_id){
         List<Project> projectList = projects.stream().filter(project -> project.getProject_id().equals(project_id)).collect(Collectors.toList());
+        if(projectList.size() == 0){
+            throw new ResourceNotFoundException("Invalid project id " + project_id);
+        }
+
         return projectList.get(0);
     }
 

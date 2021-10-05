@@ -1,5 +1,6 @@
 package com.simonschreinermacher.projectmanager.controller;
 
+import com.simonschreinermacher.projectmanager.error.ResourceNotFoundException;
 import com.simonschreinermacher.projectmanager.models.Project;
 import com.simonschreinermacher.projectmanager.models.Todo;
 import com.simonschreinermacher.projectmanager.models.User;
@@ -31,6 +32,9 @@ public class UserController {
         //List<Project> allProjects = projectRepository.findAll();
         //return allProjects;
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ResourceNotFoundException("Invalid user " + username);
+        }
         Set<Project> projects = user.getProjects();
         return projects;
     }
@@ -42,20 +46,24 @@ public class UserController {
             return new ResponseEntity<Project>(project.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);*/
-        try{
-            User user = userRepository.findByUsername(username);
-            Project project = user.findProjectById(project_id);
-            return new ResponseEntity<Project>(project, HttpStatus.OK);
+
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ResourceNotFoundException("Invalid user " + username);
         }
-        catch(Exception e){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        Project project = user.findProjectById(project_id);
+        return new ResponseEntity<Project>(project, HttpStatus.OK);
+
 
     }
 
     @PostMapping("/{username}/projects")
     public ResponseEntity<Boolean> addProject(@PathVariable(value="username") String username, @RequestBody Map<String, Object> payload){
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ResourceNotFoundException("Invalid user " + username);
+        }
+
 
         Set<Todo> todos = new HashSet<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -81,6 +89,10 @@ public class UserController {
     @PostMapping("/{username}/projects/{project_id}/todos")
     public ResponseEntity<Boolean> addTodo(@RequestBody Map<String, Object> payload, @PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id){
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ResourceNotFoundException("Invalid user " + username);
+        }
+
 
         String title = payload.get("title").toString();
         String importance = payload.get("importance").toString();
@@ -107,6 +119,10 @@ public class UserController {
     public ResponseEntity<Boolean> deleteProject(@PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id){
         //projectRepository.deleteById(Long.parseLong(project_id));
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ResourceNotFoundException("Invalid user " + username);
+        }
+
         user.removeProject(Long.parseLong(project_id));
         userRepository.save(user);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
@@ -123,6 +139,10 @@ public class UserController {
         }
         return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);*/
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ResourceNotFoundException("Invalid user " + username);
+        }
+
         Project project = user.findProjectById(Long.parseLong(project_id));
         project.removeTodo(Long.parseLong(todo_id));
         userRepository.save(user);
@@ -132,6 +152,9 @@ public class UserController {
     @PutMapping("/{username}/projects/{project_id}")
     public ResponseEntity<Boolean> editProject(@PathVariable(value="username") String username, @PathVariable(value= "project_id") String project_id, @RequestBody Map<String, Object> payload){
         User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ResourceNotFoundException("Invalid user " + username);
+        }
 
         System.out.println(payload);
         String name = payload.get("name").toString();
@@ -167,6 +190,9 @@ public class UserController {
     @PutMapping("/{username}/projects/{project_id}/todos/{todo_id}")
     public ResponseEntity<Boolean> editTodo(@PathVariable(value="username") String username,@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id, @RequestBody Map<String, Object> payload){
       User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ResourceNotFoundException("Invalid user " + username);
+        }
 
       String title = payload.get("title").toString();
       String importance = payload.get("importance").toString();
