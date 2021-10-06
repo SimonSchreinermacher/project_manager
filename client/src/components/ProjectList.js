@@ -13,12 +13,6 @@ class ProjectList extends React.Component {
         }
     }
 
-    handleLogout(event){
-        event.preventDefault();
-        localStorage.removeItem('token');
-        this.props.history.push("/login");
-    }
-
     handleSubmit(event){
         event.preventDefault();
         this.props.history.push("/create");
@@ -47,9 +41,6 @@ class ProjectList extends React.Component {
 
         return(
         <div>
-            <form onSubmit={this.handleLogout.bind(this)}>
-                <button type="submit">Log out</button>
-            </form>
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <button type="submit">Add new project</button>
             </form>
