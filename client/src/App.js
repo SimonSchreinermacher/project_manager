@@ -1,13 +1,13 @@
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import ProjectList from './components/ProjectList.js'
-import CreateProject from './components/CreateProject.js'
-import Project from './components/Project.js'
-import Login from './components/Login.js';
-import Register from './components/Register.js';
-import Navbar from './components/Navbar.js';
+import ProjectList from './components/ProjectList/ProjectList.js'
+import CreateProject from './components/CreateProject/CreateProject.js'
+import Project from './components/Project/Project.js'
+import Login from './components/Authentication/Login.js';
+import Register from './components/Authentication/Register.js';
+import Navbar from './components/Navbar/Navbar.js';
 //import CreateTodo from './components/CreateTodo.js'
 import './App.css';
-import './components/styles.css';
+import './styles.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 /*function App() {
@@ -24,10 +24,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
     </div>
   );
 }*/
-
+//<Route path="/" component = {Navbar}></Route>
 function App(){
   return(
-    <div>
+    <div class="app">
       <Router>
         <Route path="/" component = {Navbar}></Route>
         <div class="body">
@@ -45,8 +45,9 @@ function App(){
             </Switch>
           </div>
         </div>
+        
       </Router>
-    </div>
+      </div>
 );
 }
 

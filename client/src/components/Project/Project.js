@@ -1,12 +1,13 @@
 import React from 'react';
 //import Todo from './Todo.js';
-import EditableInput from './EditableComponents/EditableInput.js';
-import EditableDropdown from './EditableComponents/EditableDropdown.js';
-import TodoList from './TodoList.js';
+import EditableInput from '../EditableComponents/EditableInput.js';
+import EditableDropdown from '../EditableComponents/EditableDropdown.js';
+import TodoList from '../TodoList/TodoList';
 import {Route} from 'react-router-dom';
-import CreateTodo from './CreateTodo.js';
-import {axiosAuthenticatedCall} from '../services/AxiosManager.js'
-import {getUsernameFromToken} from '../services/AuthenticationManager.js';
+import CreateTodo from '../CreateTodo/CreateTodo.js';
+import {axiosAuthenticatedCall} from '../../services/AxiosManager.js'
+import {getUsernameFromToken} from '../../services/AuthenticationManager.js';
+import './styles.css';
 
 class Project extends React.Component {
 
@@ -106,17 +107,19 @@ class Project extends React.Component {
             );*/
 
         return(
-            <div>
+            <div class="project-body">
 
-                <form onSubmit={this.returnToOverview.bind(this)}>
-                    <button type="submit">Hide project details</button>
-                </form>
+                <div class="project-manage">
+                    <form class="project-hide" onSubmit={this.returnToOverview.bind(this)}>
+                        <button class="btn btn-primary" type="submit">Hide project details</button>
+                    </form>
 
-                <form onSubmit={this.deleteProject.bind(this)}>
-                    <button type="submit">Delete</button>
-                </form>
-                
-                <h1>{this.state.name}</h1>
+                    <form class="project-delete" onSubmit={this.deleteProject.bind(this)}>
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
+                <br></br>
+                <h1 class="project-header">{this.state.name}</h1>
                 <EditableInput 
                     type="text" 
                     text= {this.state.description} 
@@ -124,33 +127,23 @@ class Project extends React.Component {
                     onConfirm={this.editProject.bind(this)}>
                 </EditableInput>
                 
-                <br></br>
-                <p>Language:</p>
                 <EditableDropdown 
                     selected = {this.state.language} 
                     options = {["Python", "Java", "JavaScript", "C"]}
                     onChange = {selected => this.setState({language: selected})} 
+                    prefix = "Language: "
                     onConfirm={this.editProject.bind(this)}>
                 </EditableDropdown>
                 
-                <br></br>
-                <p>Project has to be finished before:</p>
                 <EditableInput 
                     type="date" 
                     text= {this.state.deadline} 
                     onChange = {text => this.setState({deadline: text})} 
+                    prefix = "Project must be finished before: "
                     onConfirm={this.editProject.bind(this)}>
                 </EditableInput>
                 
-                <br></br>
-                <p>Created on:</p>
-                <p>{this.state.createdOn}</p>
-
-                <br></br>
-                <h2>TODO:</h2>
-                <form onSubmit={this.addNewTodo.bind(this)}>
-                    <button type="submit">Add new</button>
-                </form>
+                <p class="project-createdon">Created on: {this.state.createdOn}</p>       
                 
                 <Route exact path="/project/:id">
                     <TodoList todos = {this.state.todos} project_id = {this.props.match.params.id}/>
@@ -162,5 +155,10 @@ class Project extends React.Component {
         );
     }
 }
+
+/*<p class="project-detail">Project has to be finished before:</p>
+                <p class="project-detail">Language:</p>
+                                <p>Created on:</p>
+*/
 
 export default Project;

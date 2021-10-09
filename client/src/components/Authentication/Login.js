@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import './styles.css';
 
 class Login extends React.Component {
     constructor(props) {
@@ -28,15 +29,18 @@ class Login extends React.Component {
 
     render(){
         return(
-            <div>
+            <div class="authentication-body">
                 <p>Login with existing account:</p>
-                <form onSubmit={this.handleLogin.bind(this)}>
+                <form class="form-group" onSubmit={this.handleLogin.bind(this)}>
+                    <div >
                     <p>Enter username</p>
-                    <input onChange={e => this.setState({input_name: e.target.value})}></input>
+                    <input class="form-control" onChange={e => this.setState({input_name: e.target.value})}></input>
+                    </div>
                     <br></br>
                     <p>Enter password</p>
-                    <input onChange={e => this.setState({input_password: e.target.value})}></input>
-                    <button type="submit">Login</button>
+                    <input class="form-control" onChange={e => this.setState({input_password: e.target.value})}></input>
+                    <br></br>
+                    <button class="btn btn-primary" type="submit">Login</button>
                 </form>
                 <NavLink to="/register">Dont have an account? Click here</NavLink>
             </div>

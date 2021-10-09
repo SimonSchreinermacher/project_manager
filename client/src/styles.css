@@ -1,0 +1,25 @@
+.body {
+    display: flex;
+    height: 100%;
+    background-color: aquamarine;
+}
+
+.app{
+    height:94%
+}
+
+html, body, #app, #app>div {
+    height: 100%
+  }
+
+.left {
+    flex:50%;
+    padding: 1%;
+    border-right: 1px solid black;
+}
+
+.right {
+    flex:50%;    
+    padding: 1%;
+    
+}

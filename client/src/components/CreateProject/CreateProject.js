@@ -1,8 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
-import {isValidToken, getUsernameFromToken} from '../services/AuthenticationManager.js';
-import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
+import {isValidToken, getUsernameFromToken} from '../../services/AuthenticationManager.js';
+import {axiosAuthenticatedCall} from '../../services/AxiosManager.js';
+import './styles.css';
 
 class CreateProject extends React.Component {
 
@@ -46,20 +47,22 @@ class CreateProject extends React.Component {
 
     render(){
         return(
-            <div>
+            <div class="create-project-body">
                 <form onSubmit={this.cancelCreating.bind(this)}>
-                    <button type="submit">Cancel</button>
+                    <button class="btn btn-danger" type="submit">Cancel</button>
                 </form>
 
-                <form onSubmit={this.handleSubmit.bind(this)}>
+                <h1 class="create-project-header">Create a new project</h1>
+
+                <form class="form-group" onSubmit={this.handleSubmit.bind(this)}>
                     <p>Name</p>
-                    <input required onChange={e => this.setState({name: e.target.value})}></input>
+                    <input class="form-control create-project-form" required onChange={e => this.setState({name: e.target.value})}></input>
 
                     <p>Description</p>
-                    <textarea required onChange={e => this.setState({description: e.target.value})}></textarea>
+                    <textarea class="form-control create-project-form" required onChange={e => this.setState({description: e.target.value})}></textarea>
 
                     <p>Language</p>
-                    <select required onChange={e => this.setState({language: e.target.value})}>
+                    <select class="form-control create-project-form" required onChange={e => this.setState({language: e.target.value})}>
                         <option selected disabled hidden></option>
                         <option>Python</option>
                         <option>Java</option>
@@ -68,11 +71,11 @@ class CreateProject extends React.Component {
                     </select>
 
                     <p>Deadline</p>
-                    <input required type="date" onChange={e => this.setState({deadline: e.target.value})}></input>
+                    <input class="form-control create-project-form" type="date" onChange={e => this.setState({deadline: e.target.value})}></input>
 
                     <br></br>
 
-                    <button type="submit">Add new project</button>
+                    <button class="btn btn-primary" type="submit">Add new project</button>
                 </form>
             </div>
         );

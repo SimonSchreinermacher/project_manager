@@ -1,8 +1,9 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
-import EditableInput from './EditableComponents/EditableInput.js';
-import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
-import {getUsernameFromToken} from '../services/AuthenticationManager.js';
+import EditableInput from '../EditableComponents/EditableInput.js';
+import {axiosAuthenticatedCall} from '../../services/AxiosManager.js';
+import {getUsernameFromToken} from '../../services/AuthenticationManager.js';
+import './styles.css';
 
 class Todo extends React.Component {
 
@@ -58,49 +59,47 @@ class Todo extends React.Component {
     render(){
         let finishButton;
         if (!this.props.todo._finished){
-            finishButton = <button type="submit">Finish</button>
+            finishButton = <button class="todo-finish-button btn btn-primary" type="submit">Finish</button>
         }
         else{
-            finishButton = <button type="submit">Unfinish</button>
+            finishButton = <button class="todo-finish-button btn btn-primary" type="submit">Unfinish</button>
         }
 
         return(
-            <div>
-                <p>Title:</p>
+            <div class="todo-body">
                 <EditableInput 
                     type="text" 
                     text= {this.state.title} 
                     onChange = {text => this.setState({title: text})} 
+                    prefix = "Title: "
                     onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
                 
-                <br></br>
-                <p>Category:</p>
                 <EditableInput 
                     type="text" 
                     text= {this.state.category} 
                     onChange = {text => this.setState({category: text})} 
+                    prefix = "Category: "
                     onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
 
-                <br></br>
-                <p>Importance:</p>
                 <EditableInput 
                     type="text" 
                     text= {this.state.importance} 
                     onChange = {text => this.setState({importance: text})} 
+                    prefix = "Importance: "
                     onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
 
-                <br></br>
-                <form onSubmit={this.changeStatus.bind(this)}>
-                    {finishButton}
-                </form>
-                
-                <form onSubmit={this.deleteTodo.bind(this)}>
-                    <button type="submit">Delete</button>
-                </form>
-                <br></br>
+                <div class="todo-manage">
+                    <form class="todo-finish" onSubmit={this.changeStatus.bind(this)}>
+                        {finishButton}
+                    </form>
+                    
+                    <form class="todo-delete" onSubmit={this.deleteTodo.bind(this)}>
+                        <button class="todo-delete-button btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
             </div>
         );
     }

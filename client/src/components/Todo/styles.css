@@ -1,0 +1,28 @@
+.todo-body{
+    background-color: aqua;
+    padding-top: 2%;
+    padding-bottom: 2%
+}
+
+.todo-manage{
+    display:flex;
+}
+
+.todo-finish{
+    flex:50%;
+    position: relative;
+}
+
+.todo-finish-button{
+    position:absolute;
+    right:10%;
+}
+
+.todo-delete{
+    flex:50%;
+}
+
+.todo-delete-button{
+    position: relative;
+    left: 10%
+}

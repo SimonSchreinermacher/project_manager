@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles.css';
 
 class EditableDropdown extends React.Component{
 
@@ -32,21 +33,22 @@ class EditableDropdown extends React.Component{
             );
         let html;
         if (this.state.editActive){
-            html = <div>
-                <form>
-                    <select onChange={e => this.onChange(e)}>
+            html = <div >
+                <form class="editable-body">
+                    <button class="btn btn-primary" onClick= {this.confirmEdit.bind(this)}>Confirm</button>
+                    <select class= "editable-dropdown" onChange={e => this.onChange(e)}>
                         {allOptions}
                     </select>
-                    <button onClick= {this.confirmEdit.bind(this)}>Confirm changes</button>
                 </form>
             </div>
         }
         else{
-            html = <div>
-                <p>{this.props.selected}</p>
-                <form onSubmit= {this.switchMode.bind(this)}>
-                    <button type="submit">Edit</button>
+            html = <div class="editable-body">
+                <form class="editable-button" onSubmit= {this.switchMode.bind(this)}>
+                    <button class="btn btn-primary" type="submit">Edit</button>
                 </form>
+                <p class="editable-text">{this.props.prefix} {this.props.selected}</p>
+                
             </div>
         }
         return(

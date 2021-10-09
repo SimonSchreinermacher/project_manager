@@ -1,7 +1,8 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
-import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
-import {getUsernameFromToken} from '../services/AuthenticationManager.js';
+import {axiosAuthenticatedCall} from '../../services/AxiosManager.js';
+import {getUsernameFromToken} from '../../services/AuthenticationManager.js';
+import './styles.css';
 
 class CreateTodo extends React.Component {
 
@@ -45,17 +46,18 @@ class CreateTodo extends React.Component {
             );
 
         return(
-            <div>
-                <form onSubmit={this.cancelCreating.bind(this)}>
-                    <button type="submit">Cancel</button>
+            <div class="create-todo-body">
+                <hr></hr>
+                <form class="form-group" onSubmit={this.cancelCreating.bind(this)}>
+                    <button class="btn btn-danger" type="submit">Cancel</button>
                 </form>
 
-                <h1>Create new TODO:</h1>
+                <h2 class="create-todo-header">Create new TODO:</h2>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <p>Title</p>
-                    <input required onChange={e => this.setState({title: e.target.value})}></input>
+                    <input class="form-control create-todo-form" required onChange={e => this.setState({title: e.target.value})}></input>
                     <p>Importance</p>
-                    <select required onChange={e => this.setState({importance: e.target.value})}>
+                    <select class="form-control create-todo-form" required onChange={e => this.setState({importance: e.target.value})}>
                         <option selected disabled hidden></option>
                         <option>Minor</option>
                         <option>Medium</option>
@@ -64,12 +66,12 @@ class CreateTodo extends React.Component {
                         <option>Very Serious</option>
                     </select>
                     <p>Set category</p>
-                    <select required onChange={e => this.setState({chosenCategory: e.target.value})}>
+                    <select class="form-control create-todo-form" required onChange={e => this.setState({chosenCategory: e.target.value})}>
                         <option selected disabled hidden></option>
                         {allCategories}
                     </select>
                     <br></br>
-                    <button type="submit">Add TODO</button>
+                    <button class="btn btn-primary" type="submit">Add TODO</button>
                 </form>
             </div>
         );

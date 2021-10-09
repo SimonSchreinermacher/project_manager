@@ -1,0 +1,30 @@
+.todolist-body{
+    margin-left: 10%;
+    margin-right: 10%;
+    position: relative;
+}
+
+
+.todolist-header{
+    text-align:center;
+}
+
+.todolist-filter{
+    display:flex;
+    margin-top: 2%;
+}
+
+.todolist-filter-status{
+    flex:50%;
+    margin-bottom: 2%;
+}
+
+.todolist-filter-status-button{
+    width: 100%;
+}
+
+.todolist-filter-category{
+    flex:50%;
+    margin-left: 10%;
+    margin-bottom: 2%;
+}

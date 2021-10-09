@@ -1,5 +1,7 @@
 import React from 'react';
-import Todo from './Todo.js';
+import Todo from '../Todo/Todo.js';
+import {withRouter} from 'react-router-dom';
+import './styles.css'
 
 class TodoList extends React.Component {
 
@@ -9,6 +11,11 @@ class TodoList extends React.Component {
             filter_category: "All",
             filter_status: "Running"
         }
+    }
+
+    addNewTodo(event){
+        event.preventDefault();
+        this.props.history.push("/project/" + this.props.match.params.id + "/newtask")
     }
 
     changeTodosDisplayed(event){
@@ -54,23 +61,31 @@ class TodoList extends React.Component {
 
         
         return(
-            <div>
-                <form onSubmit={this.changeTodosDisplayed.bind(this)}>
-                    <button type="submit">Currently showing {this.state.filter_status} todos</button>
+            <div class="todolist-body">
+                <hr></hr> 
+                <h2 class="todolist-header">TODO:</h2>
+                <form onSubmit={this.addNewTodo.bind(this)}>
+                    <button class="btn btn-primary" type="submit">Add new</button>
                 </form>
 
-                <p>Filter:</p>
-                <select onChange={e => this.setState({filter_category: e.target.value})}>
-                    <option>All</option>
-                    <option>Feature</option>
-                    <option>Bug</option>
-                    <option>Update</option>
-                    <option>Refactor</option>
-                </select>
+                <div class="todolist-filter">
+                    <form class="todolist-filter-status" onSubmit={this.changeTodosDisplayed.bind(this)}>
+                        <button class="todolist-filter-status-button" type="submit">Currently showing {this.state.filter_status} todos</button>
+                    </form>
+
+                    
+                    <select class="todolist-filter-category" onChange={e => this.setState({filter_category: e.target.value})}>
+                        <option>All</option>
+                        <option>Feature</option>
+                        <option>Bug</option>
+                        <option>Update</option>
+                        <option>Refactor</option>
+                    </select>
+                </div>
                 {todo_list}
             </div>
         );
     }
 }
 
-export default TodoList;
+export default withRouter(TodoList);

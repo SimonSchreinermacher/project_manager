@@ -1,0 +1,36 @@
+/*REMOVE LATER*/
+.project-list-body{
+    background-color: white;
+    min-height:100%;
+    overflow-y: scroll;
+    height: 80%
+    
+}
+
+.link-element{
+    margin: auto;
+    margin-bottom: 3%;  
+    font-size: xx-large;
+    text-align: center;
+    width: 70%;
+    background-color: aqua;
+}
+
+.header{
+    margin: auto;
+    margin-bottom: 1%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.add-project-form{
+    margin: auto;
+    width: 20%;
+    align-self: center;
+    background-color: white;
+}
+
+.add-project-button{
+    margin-top: 10%;
+}
+

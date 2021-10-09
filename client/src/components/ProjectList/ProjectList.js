@@ -1,7 +1,8 @@
 import React from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
-import {authToken, getUsernameFromToken} from '../services/AuthenticationManager.js';
-import {axiosAuthenticatedCall} from '../services/AxiosManager.js';
+import {authToken, getUsernameFromToken} from '../../services/AuthenticationManager.js';
+import {axiosAuthenticatedCall} from '../../services/AxiosManager.js';
+import './styles.css'
 
 
 class ProjectList extends React.Component {
@@ -34,18 +35,20 @@ class ProjectList extends React.Component {
 
     render(){
         const project_list = this.state.projects.map(project => 
-            <div key={project.project_id.toString()}>
+            <div class="link-element" key={project.project_id.toString()}>
                 <NavLink to={"/project/" + project.project_id}>{project.name}</NavLink>
             </div>
             );
 
         return(
-        <div>
-            <form onSubmit={this.handleSubmit.bind(this)}>
-                <button type="submit">Add new project</button>
+        <div class="project-list-body">
+            <form class= "add-project-form" onSubmit={this.handleSubmit.bind(this)}>
+                <button class="add-project-button btn btn-primary" type="submit">Add new project</button>
             </form>
-            <h1>Your projects:</h1>
-            {project_list}
+            <h1 class= "header">Your projects:</h1>
+            <div class="project-list">
+                {project_list}
+            </div>
         </div>);
     }
 }

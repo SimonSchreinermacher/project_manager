@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles.css'
 
 class EditableInput extends React.Component{
 
@@ -29,23 +30,28 @@ class EditableInput extends React.Component{
     render(){
         let html;
         if (this.state.editActive){
-            html = <div>
-                <form>
-                    <input type = {this.props.type} defaultValue={this.props.text} onChange={e => this.onChange(e)}></input>
-                    <button onClick= {this.confirmEdit.bind(this)}>Confirm changes</button>
+            html = <div >
+                <form class="editable-body">
+                    <button class="btn btn-primary editable-button" onClick= {this.confirmEdit.bind(this)}>Confirm</button>
+                    <input class= "editable-input" type = {this.props.type} defaultValue={this.props.text} onChange={e => this.onChange(e)}></input>
                 </form>
             </div>
         }
         else{
-            html = <div>
-                <p>{this.props.text}</p>
-                <form onSubmit= {this.switchMode.bind(this)}>
-                    <button type="submit">Edit</button>
-                </form>
+            html = <div class="editable-body">
+                <div class="editable-button">
+                    <form onSubmit= {this.switchMode.bind(this)}>
+                        <button class="btn btn-primary" type="submit">Edit</button>
+                    </form>
+                </div>
+                <div class="editable-text">
+                    <p>{this.props.prefix} {this.props.text}</p>
+                </div>
+                
             </div>
         }
         return(
-            <div>
+            <div >
                 {html}
             </div>
         );

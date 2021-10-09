@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {NavLink} from 'react-router-dom';
 import {Alert} from 'react-bootstrap';
+import './styles.css';
 
 class Register extends React.Component{
     constructor(props){
@@ -34,17 +35,18 @@ class Register extends React.Component{
             errorAlert = <Alert variant="danger">{this.state.error_message}</Alert>
         } 
 
-        return(<div>
+        return(<div class="authentication-body">
             {errorAlert}
             <p>Register new account:</p>
-            <form onSubmit={this.handleRegister.bind(this)}>
+            <form class="form-group" onSubmit={this.handleRegister.bind(this)}>
                 <p>Username:</p>
-                <input onChange={e => this.setState({username: e.target.value})}></input>
+                <input class="form-control" onChange={e => this.setState({username: e.target.value})}></input>
 
                 <br></br>
                 <p>Password:</p>
-                <input onChange={e => this.setState({password: e.target.value})}></input>
-                <button type="submit">Register new account</button>
+                <input class="form-control" onChange={e => this.setState({password: e.target.value})}></input>
+                <br></br>
+                <button class="btn btn-primary" type="submit">Register new account</button>
             </form>
             <NavLink to="/login">Already have an account? Click here</NavLink>
         </div>
