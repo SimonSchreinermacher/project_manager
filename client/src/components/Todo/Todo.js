@@ -1,6 +1,7 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import EditableInput from '../EditableComponents/EditableInput.js';
+import EditableDropdown from '../EditableComponents/EditableDropdown.js';
 import {axiosAuthenticatedCall} from '../../services/AxiosManager.js';
 import {getUsernameFromToken} from '../../services/AuthenticationManager.js';
 import './styles.css';
@@ -75,21 +76,21 @@ class Todo extends React.Component {
                     onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
                 
-                <EditableInput 
-                    type="text" 
-                    text= {this.state.category} 
+                <EditableDropdown
+                    selected= {this.state.category} 
+                    options= {["Feature", "Bug", "Refactor", "Update"]}
                     onChange = {text => this.setState({category: text})} 
                     prefix = "Category: "
                     onConfirm={this.confirmManualEditing.bind(this)}>
-                </EditableInput>
+                </EditableDropdown>
 
-                <EditableInput 
-                    type="text" 
-                    text= {this.state.importance} 
+                <EditableDropdown  
+                    selected= {this.state.importance} 
+                    options = {["Minor", "Medium", "Major", "Serious", "Very Serious"]}
                     onChange = {text => this.setState({importance: text})} 
                     prefix = "Importance: "
                     onConfirm={this.confirmManualEditing.bind(this)}>
-                </EditableInput>
+                </EditableDropdown>
 
                 <div class="todo-manage">
                     <form class="todo-finish" onSubmit={this.changeStatus.bind(this)}>
