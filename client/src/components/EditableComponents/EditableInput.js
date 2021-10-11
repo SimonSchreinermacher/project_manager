@@ -38,13 +38,21 @@ class EditableInput extends React.Component{
             </div>
         }
         else{
+            let displayclass;
+            if(this.props.type === "header"){
+                displayclass = "editable-header";
+            }
+            else{
+                displayclass = "editable-text";
+            }
+
             html = <div class="editable-body">
                 <div class="editable-button">
                     <form onSubmit= {this.switchMode.bind(this)}>
                         <button class="btn btn-primary" type="submit">Edit</button>
                     </form>
                 </div>
-                <div class="editable-text">
+                <div class={displayclass}>
                     <p>{this.props.prefix} {this.props.text}</p>
                 </div>
                 

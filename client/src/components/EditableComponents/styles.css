@@ -24,3 +24,11 @@
     margin-left: 5%;
     margin-right: 5%;
 }
+
+.editable-header{
+    margin-right: 5%;
+    width: 100%;
+    text-align: center;
+    font-size: xx-large;
+    text-decoration: underline;
+}

@@ -119,7 +119,13 @@ class Project extends React.Component {
                     </form>
                 </div>
                 <br></br>
-                <h1 class="project-header">{this.state.name}</h1>
+                <EditableInput
+                    type="header"
+                    text= {this.state.name}
+                    onChange={text => this.setState({name: text})}
+                    onConfirm={this.editProject.bind(this)}>
+                </EditableInput>
+
                 <EditableInput 
                     type="text" 
                     text= {this.state.description} 
