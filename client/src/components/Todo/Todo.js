@@ -67,7 +67,7 @@ class Todo extends React.Component {
         }
 
         return(
-            <div class="todo-body">
+            <div class="todo-body list-group-item-success">
                 <EditableInput 
                     type="text" 
                     text= {this.state.title} 

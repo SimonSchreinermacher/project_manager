@@ -9,11 +9,10 @@
 
 .link-element{
     margin: auto;
-    margin-bottom: 3%;  
-    font-size: xx-large;
+    margin-bottom: 1%;  
+    font-size: x-large;
     text-align: center;
     width: 70%;
-    background-color: aqua;
 }
 
 .header{

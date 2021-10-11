@@ -35,7 +35,7 @@ class ProjectList extends React.Component {
 
     render(){
         const project_list = this.state.projects.map(project => 
-            <div class="link-element" key={project.project_id.toString()}>
+            <div class="link-element list-group-item list-group-item-success" key={project.project_id.toString()}>
                 <NavLink to={"/project/" + project.project_id}>{project.name}</NavLink>
             </div>
             );
@@ -46,7 +46,7 @@ class ProjectList extends React.Component {
                 <button class="add-project-button btn btn-primary" type="submit">Add new project</button>
             </form>
             <h1 class= "header">Your projects:</h1>
-            <div class="project-list">
+            <div class="project-list list-group">
                 {project_list}
             </div>
         </div>);
