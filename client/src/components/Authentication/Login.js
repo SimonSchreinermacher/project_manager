@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
+import {Alert} from 'react-bootstrap';
 import './styles.css';
 
 class Login extends React.Component {
@@ -8,7 +9,8 @@ class Login extends React.Component {
         super(props);
         this.state={
             input_name: "",
-            input_password: ""
+            input_password: "",
+            wrong_credentials: false
         }
     }
 
@@ -23,13 +25,19 @@ class Login extends React.Component {
             this.props.history.push('/');
         })
         .catch((err) => {
+            this.setState({wrong_credentials: true})
             console.log(err);
         })
     }
 
     render(){
+        let error_message;
+        if(this.state.wrong_credentials){
+            error_message = <Alert variant="danger">Wrong username or password</Alert>
+        }
         return(
             <div class="authentication-body">
+                {error_message}
                 <p>Login with existing account:</p>
                 <form class="form-group" onSubmit={this.handleLogin.bind(this)}>
                     <div >
