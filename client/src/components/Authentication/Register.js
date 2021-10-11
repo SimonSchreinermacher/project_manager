@@ -44,7 +44,7 @@ class Register extends React.Component{
 
                 <br></br>
                 <p>Password:</p>
-                <input class="form-control" onChange={e => this.setState({password: e.target.value})}></input>
+                <input class="form-control" type="password" onChange={e => this.setState({password: e.target.value})}></input>
                 <br></br>
                 <button class="btn btn-primary" type="submit">Register new account</button>
             </form>
