@@ -18,16 +18,6 @@ class TodoList extends React.Component {
         this.props.history.push("/project/" + this.props.match.params.id + "/newtask")
     }
 
-    changeTodosDisplayed(event){
-        event.preventDefault();
-        if(this.state.filter_status === "Running"){
-            this.setState({filter_status: "Finished"});
-        }
-        else{
-            this.setState({filter_status: "Running"});
-        }
-    }
-
     render(){
 
         const order_of_importance = {"Minor": 5, "Medium": 4, "Major": 3, "Serious": 2, "Very Serious": 1}
@@ -69,9 +59,10 @@ class TodoList extends React.Component {
                 </form>
 
                 <div class="todolist-filter">
-                    <form class="todolist-filter-status" onSubmit={this.changeTodosDisplayed.bind(this)}>
-                        <button class="todolist-filter-status-button" type="submit">Currently showing {this.state.filter_status} todos</button>
-                    </form>
+                    <select class="todolist-filter-status" onChange={e => this.setState({filter_status: e.target.value})}>
+                        <option>Running</option>
+                        <option>Finished</option>
+                    </select>
 
                     
                     <select class="todolist-filter-category" onChange={e => this.setState({filter_category: e.target.value})}>
