@@ -1,0 +1,3 @@
+export const categories = ["Feature", "Bug", "Refactor", "Update"];
+export const languages = ["Assembly", "BASIC", "C", "C#", "C++", "Closure", "Cobol", "Dart", "Fortran", "Go", "Groovy", "Java", "JavaScript", "Kotlin", "Lua", "Pascal", "Perl", "PHP", "Prolog", "Python", "R", "Ruby", "Rust", "Scala", "Swift", "TypeScript"];
+export const importances = ["Minor", "Medium", "Major", "Serious", "Very Serious"];

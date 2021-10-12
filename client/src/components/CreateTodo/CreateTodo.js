@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import {axiosAuthenticatedCall} from '../../services/AxiosManager.js';
 import {getUsernameFromToken} from '../../services/AuthenticationManager.js';
+import {categories, importances} from '../Constants.js';
 import './styles.css';
 
 class CreateTodo extends React.Component {
@@ -12,7 +13,6 @@ class CreateTodo extends React.Component {
             title: "",
             importance: "",
             chosenCategory: "",
-            categories: ["Feature", "Bug", "Update", "Refactor"]
         };
     }
 
@@ -41,10 +41,6 @@ class CreateTodo extends React.Component {
     }
 
     render(){
-        const allCategories = this.state.categories.map(category =>
-            <option>{category}</option>
-            );
-
         return(
             <div class="create-todo-body">
                 <hr></hr>
@@ -59,16 +55,12 @@ class CreateTodo extends React.Component {
                     <p>Importance</p>
                     <select class="form-control create-todo-form" required onChange={e => this.setState({importance: e.target.value})}>
                         <option selected disabled hidden></option>
-                        <option>Minor</option>
-                        <option>Medium</option>
-                        <option>Major</option>
-                        <option>Serious</option>
-                        <option>Very Serious</option>
+                        {importances.map(importance => <option>{importance}</option>)}
                     </select>
                     <p>Set category</p>
                     <select class="form-control create-todo-form" required onChange={e => this.setState({chosenCategory: e.target.value})}>
                         <option selected disabled hidden></option>
-                        {allCategories}
+                        {categories.map(category => <option>{category}</option>)}
                     </select>
                     <br></br>
                     <button class="btn btn-primary" type="submit">Add TODO</button>

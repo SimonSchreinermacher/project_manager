@@ -3,6 +3,7 @@ import moment from 'moment';
 import {withRouter} from 'react-router-dom';
 import {isValidToken, getUsernameFromToken} from '../../services/AuthenticationManager.js';
 import {axiosAuthenticatedCall} from '../../services/AxiosManager.js';
+import {languages} from '../Constants.js';
 import './styles.css';
 
 class CreateProject extends React.Component {
@@ -64,10 +65,7 @@ class CreateProject extends React.Component {
                     <p>Language</p>
                     <select class="form-control create-project-form" required onChange={e => this.setState({language: e.target.value})}>
                         <option selected disabled hidden></option>
-                        <option>Python</option>
-                        <option>Java</option>
-                        <option>JavaScript</option>
-                        <option>C</option>
+                        {languages.map(language => <option>{language}</option>)}
                     </select>
 
                     <p>Deadline</p>

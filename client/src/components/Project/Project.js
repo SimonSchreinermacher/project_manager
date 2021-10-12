@@ -7,6 +7,7 @@ import {Route} from 'react-router-dom';
 import CreateTodo from '../CreateTodo/CreateTodo.js';
 import {axiosAuthenticatedCall} from '../../services/AxiosManager.js'
 import {getUsernameFromToken} from '../../services/AuthenticationManager.js';
+import {languages} from '../Constants.js';
 import './styles.css';
 
 class Project extends React.Component {
@@ -135,7 +136,7 @@ class Project extends React.Component {
                 
                 <EditableDropdown 
                     selected = {this.state.language} 
-                    options = {["Python", "Java", "JavaScript", "C"]}
+                    options = {languages}
                     onChange = {selected => this.setState({language: selected})} 
                     prefix = "Language: "
                     onConfirm={this.editProject.bind(this)}>
