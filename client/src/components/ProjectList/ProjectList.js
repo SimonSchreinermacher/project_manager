@@ -10,7 +10,8 @@ class ProjectList extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            projects: []
+            projects: [],
+            filter_search: ""
         }
     }
 
@@ -34,7 +35,9 @@ class ProjectList extends React.Component {
     }
 
     render(){
-        const project_list = this.state.projects.map(project => 
+        const filtered_todos = this.state.projects.filter(project => {return project.name.includes(this.state.filter_search)})
+
+        const project_list = filtered_todos.map(project => 
             <div class="link-element list-group-item list-group-item-success" key={project.project_id.toString()}>
                 <NavLink to={"/project/" + project.project_id}>{project.name}</NavLink>
             </div>
@@ -46,6 +49,9 @@ class ProjectList extends React.Component {
                 <button class="add-project-button btn btn-primary" type="submit">Add new project</button>
             </form>
             <h1 class= "header">Your projects:</h1>
+            <form class="searchbar-form" >
+                <input class="searchbar form-control" placeholder="Search for projects" onChange={e => this.setState({filter_search: e.target.value})}></input>
+            </form>
             <div class="project-list list-group">
                 {project_list}
             </div>

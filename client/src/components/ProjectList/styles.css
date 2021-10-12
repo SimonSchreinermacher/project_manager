@@ -31,5 +31,16 @@
 
 .add-project-button{
     margin-top: 10%;
+    width: 100%;
+}
+
+.searchbar-form{
+    margin: auto;
+    width: 20%;
+    margin-bottom: 3%;
+}
+
+.searchbar{
+    width: 100%;
 }
 
