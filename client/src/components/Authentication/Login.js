@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import {Alert} from 'react-bootstrap';
+import { isValidToken } from '../../services/AuthenticationManager.js';
 import './styles.css';
 
 class Login extends React.Component {
@@ -28,6 +29,12 @@ class Login extends React.Component {
             this.setState({wrong_credentials: true})
             console.log(err);
         })
+    }
+
+    componentDidMount() {
+        if(isValidToken(localStorage.getItem("token"))){
+            this.props.history.push("/")
+        }
     }
 
     render(){
