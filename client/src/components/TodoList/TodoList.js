@@ -9,7 +9,8 @@ class TodoList extends React.Component {
         super(props);
         this.state = {
             filter_category: "All",
-            filter_status: "Running"
+            filter_status: "Running",
+            filter_search: ""
         }
     }
 
@@ -35,12 +36,9 @@ class TodoList extends React.Component {
 
         this.props.todos.sort(compare_importance); //sorts by result of compare_importance() ascending => Higher importance will come first
 
-        let filtered_todos;
-        if(this.state.filter_category === "All"){
-            filtered_todos = this.props.todos;
-        }
-        else{
-            filtered_todos = this.props.todos.filter(task => {return task.category === this.state.filter_category})
+        let filtered_todos = this.props.todos.filter(todo => {return todo.title.includes(this.state.filter_search)});
+        if(this.state.filter_category !== "All"){
+            filtered_todos = filtered_todos.filter(task => {return task.category === this.state.filter_category})
         }
         const todo_list = filtered_todos.filter(task => {return (task._finished ^ this.state.filter_status === "Running")}).map(task => 
             <div> 
@@ -64,6 +62,9 @@ class TodoList extends React.Component {
                         <option>Finished</option>
                     </select>
 
+                    <form class="todolist-filter-search">
+                        <input  class="form-control" placeholder="Search for todos" onChange={e => this.setState({filter_search: e.target.value})}></input>
+                    </form>
                     
                     <select class="todolist-filter-category" onChange={e => this.setState({filter_category: e.target.value})}>
                         <option>All</option>

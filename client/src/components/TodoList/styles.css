@@ -12,11 +12,13 @@
 .todolist-filter{
     display:flex;
     margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .todolist-filter-status{
-    flex:50%;
+    flex: 20%;
     margin-bottom: 2%;
+    margin-right: 5%;
 }
 
 .todolist-filter-status-button{
@@ -24,7 +26,13 @@
 }
 
 .todolist-filter-category{
-    flex:50%;
-    margin-left: 10%;
+    flex: 20%;
+    margin-left: 5%;
     margin-bottom: 2%;
+}
+
+.todolist-filter-search{
+    flex: 60%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
