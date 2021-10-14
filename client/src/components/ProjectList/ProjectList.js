@@ -58,7 +58,7 @@ class ProjectList extends React.Component {
             </form>
             <h1 class= "header">Your projects:</h1>
             <div class="projectlist-filter">
-                <select class="projectlist-filter-status" onChange={e => this.setState({filter_status:e.target.value})}>
+                <select class="projectlist-filter-status form-control" onChange={e => this.setState({filter_status:e.target.value})}>
                     <option>Running</option>
                     <option>Finished</option>
                     <option>All</option>

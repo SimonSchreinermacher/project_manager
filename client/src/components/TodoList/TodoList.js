@@ -57,7 +57,7 @@ class TodoList extends React.Component {
                 </form>
 
                 <div class="todolist-filter">
-                    <select class="todolist-filter-status" onChange={e => this.setState({filter_status: e.target.value})}>
+                    <select class="todolist-filter-status form-control" onChange={e => this.setState({filter_status: e.target.value})}>
                         <option>Running</option>
                         <option>Finished</option>
                     </select>
@@ -66,7 +66,7 @@ class TodoList extends React.Component {
                         <input  class="form-control" placeholder="Search for todos" onChange={e => this.setState({filter_search: e.target.value})}></input>
                     </form>
                     
-                    <select class="todolist-filter-category" onChange={e => this.setState({filter_category: e.target.value})}>
+                    <select class="todolist-filter-category form-control" onChange={e => this.setState({filter_category: e.target.value})}>
                         <option>All</option>
                         <option>Feature</option>
                         <option>Bug</option>
