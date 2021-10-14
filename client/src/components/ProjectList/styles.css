@@ -41,12 +41,25 @@
 }
 
 .searchbar-form{
+    flex:50%;
     margin: auto;
     width: 20%;
-    margin-bottom: 3%;
+    margin-left: 10%;
 }
 
 .searchbar{
     width: 100%;
+}
+
+.projectlist-filter{
+    display:flex;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 3%;
+}
+
+.projectlist-filter-status{
+    flex:50%;
+    margin-right: 10%;
 }
 
