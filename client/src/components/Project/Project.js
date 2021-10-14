@@ -1,5 +1,4 @@
 import React from 'react';
-//import Todo from './Todo.js';
 import EditableInput from '../EditableComponents/EditableInput.js';
 import EditableDropdown from '../EditableComponents/EditableDropdown.js';
 import TodoList from '../TodoList/TodoList';
@@ -110,21 +109,7 @@ class Project extends React.Component {
     }
 
     render(){
-        //TODO: Since Todo has a lifecycle, filtering here cannot be done so easily. Todo now gets a random key to be 
-        //counted as new instance each time. This is not optimal and may need some improvement
-        /*const todo_list = this.state.todos.filter(task => {return (task._finished ^ this.state.todos_shown === "Running")}).map(task => 
-                <div> 
-                    <Todo key = {Math.floor(Math.random() * 10000000)} todo = {task} project_id = {this.props.match.params.id}></Todo> 
-                    <hr></hr>
-                </div>
-            );*/
-        let finish_button_text;
-        if(this.state.finished){
-            finish_button_text = "Set as running";
-        }
-        else{
-            finish_button_text = "Set as finished";
-        }
+        let finish_button_text = (this.state.finished) ? "Set as running" : "Set as finished";
 
         return(
             <div class="project-body">
@@ -186,10 +171,5 @@ class Project extends React.Component {
         );
     }
 }
-
-/*<p class="project-detail">Project has to be finished before:</p>
-                <p class="project-detail">Language:</p>
-                                <p>Created on:</p>
-*/
 
 export default Project;

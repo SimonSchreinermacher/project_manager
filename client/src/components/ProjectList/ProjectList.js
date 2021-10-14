@@ -24,6 +24,7 @@ class ProjectList extends React.Component {
     componentDidMount(){
         authToken(localStorage.getItem("token"));
         const username = getUsernameFromToken(localStorage.getItem("token"))
+
         function onSuccess(res){
             this.setState({projects: res.data})
         }
@@ -44,6 +45,7 @@ class ProjectList extends React.Component {
             filtered_projects = this.state.projects.filter(project => !project.finished);
         }
         filtered_projects = filtered_projects.filter(project => {return project.name.includes(this.state.filter_search)})
+        
         const project_list = filtered_projects.map(project => 
             <div class="link-element list-group-item list-group-item-success" key={project.project_id.toString()}>
                 <p class="link-status">{project.finished ? "Finished" : "Running"}</p>

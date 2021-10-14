@@ -23,12 +23,9 @@ class CreateTodo extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        console.log(this.state.title);
-        console.log(this.state.importance);
-        console.log(this.state.chosenCategory);
         const username = getUsernameFromToken(localStorage.getItem("token"))
-
         const data = {title: this.state.title, importance: this.state.importance, category: this.state.chosenCategory};
+        
         function onSuccess(res){
             this.props.history.push("/project/" + this.props.match.params.id)
             window.location.reload();

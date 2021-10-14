@@ -1,6 +1,7 @@
 import React from 'react';
 import Todo from '../Todo/Todo.js';
 import {withRouter} from 'react-router-dom';
+import {categories} from '../Constants.js';
 import './styles.css'
 
 class TodoList extends React.Component {
@@ -20,7 +21,6 @@ class TodoList extends React.Component {
     }
 
     render(){
-
         const order_of_importance = {"Minor": 5, "Medium": 4, "Major": 3, "Serious": 2, "Very Serious": 1}
         function compare_importance(a, b){ //a greater importance than b => a > b, a lesser importance than b => a < b
             if(order_of_importance[a.importance] > order_of_importance[b.importance]){
@@ -68,10 +68,7 @@ class TodoList extends React.Component {
                     
                     <select class="todolist-filter-category form-control" onChange={e => this.setState({filter_category: e.target.value})}>
                         <option>All</option>
-                        <option>Feature</option>
-                        <option>Bug</option>
-                        <option>Update</option>
-                        <option>Refactor</option>
+                        {categories.map(category => <option>{category}</option>)}
                     </select>
                 </div>
                 {todo_list}

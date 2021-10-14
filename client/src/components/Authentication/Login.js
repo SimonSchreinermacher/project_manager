@@ -17,8 +17,6 @@ class Login extends React.Component {
 
     handleLogin(event){
         event.preventDefault();
-        console.log(this.state.input_name)
-        console.log(this.state.input_password)
         const data = {username: this.state.input_name, password: this.state.input_password}
         axios.post("http://localhost:8080/login", data)
         .then((res) => {

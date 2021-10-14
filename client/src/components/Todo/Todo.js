@@ -46,7 +46,6 @@ class Todo extends React.Component {
     editTodo(data){
         const username = getUsernameFromToken(localStorage.getItem("token"))
 
-        console.log("Finished?", this.state.is_finished)
         function onSuccess(res){
             window.location.reload();
         }
@@ -58,13 +57,7 @@ class Todo extends React.Component {
     }
 
     render(){
-        let finishButton;
-        if (!this.props.todo._finished){
-            finishButton = <button class="todo-finish-button btn btn-primary" type="submit">Finish</button>
-        }
-        else{
-            finishButton = <button class="todo-finish-button btn btn-primary" type="submit">Unfinish</button>
-        }
+        let finishButtonText = (this.props.todo._finished) ? "Unfinish" : "Finish";
 
         return(
             <div class="todo-body list-group-item-success">
@@ -94,7 +87,7 @@ class Todo extends React.Component {
 
                 <div class="todo-manage">
                     <form class="todo-finish" onSubmit={this.changeStatus.bind(this)}>
-                        {finishButton}
+                    <button class="todo-finish-button btn btn-primary" type="submit">{finishButtonText}</button>
                     </form>
                     
                     <form class="todo-delete" onSubmit={this.deleteTodo.bind(this)}>
