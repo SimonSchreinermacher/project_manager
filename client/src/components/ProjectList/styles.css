@@ -11,8 +11,14 @@
     margin: auto;
     margin-bottom: 1%;  
     font-size: x-large;
-    text-align: center;
+    text-align:center;
     width: 70%;
+}
+
+.link-status{
+    font-size: x-small;
+    margin-bottom: -2%;
+    text-align: left;
 }
 
 .header{

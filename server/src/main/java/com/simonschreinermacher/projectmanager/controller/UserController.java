@@ -69,7 +69,7 @@ public class UserController {
         String deadline_string = payload.get("deadline").toString();
         LocalDate deadline = LocalDate.parse(deadline_string, formatter);
 
-        Project project = new Project(null, name, description, language, createdOn, deadline, todos);
+        Project project = new Project(null, name, description, language, createdOn, deadline, false, todos);
         user.addProject(project);
 
         userRepository.save(user);
@@ -134,13 +134,15 @@ public class UserController {
         String deadlineString = payload.get("deadline").toString();
         String createdOnString = payload.get("createdOn").toString();
         String language = payload.get("language").toString();
+        String finishedString = payload.get("finished").toString();
+        boolean finished = Boolean.parseBoolean(finishedString);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate createdOn = LocalDate.parse(createdOnString, formatter);
         LocalDate deadline = LocalDate.parse(deadlineString, formatter);
 
         Project project = user.findProjectById(Long.parseLong(project_id));
-        Project updatedProject = new Project(Long.parseLong(project_id), name, description, language, createdOn, deadline, project.getTodos());
+        Project updatedProject = new Project(Long.parseLong(project_id), name, description, language, createdOn, deadline, finished, project.getTodos());
         user.editProject(updatedProject);
         userRepository.save(user);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);

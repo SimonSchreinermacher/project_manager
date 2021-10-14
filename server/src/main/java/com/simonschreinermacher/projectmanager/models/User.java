@@ -46,6 +46,7 @@ public class User {
                 entry.setLanguage(project.getLanguage());
                 entry.setCreated_on(project.getCreated_on());
                 entry.setDeadline(project.getDeadline());
+                entry.setFinished(project.isFinished());
             }
         });
     }

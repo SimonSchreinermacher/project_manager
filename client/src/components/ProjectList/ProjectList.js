@@ -36,9 +36,9 @@ class ProjectList extends React.Component {
 
     render(){
         const filtered_todos = this.state.projects.filter(project => {return project.name.includes(this.state.filter_search)})
-
         const project_list = filtered_todos.map(project => 
             <div class="link-element list-group-item list-group-item-success" key={project.project_id.toString()}>
+                <p class="link-status">{project.finished ? "Finished" : "Running"}</p>
                 <NavLink to={"/project/" + project.project_id}>{project.name}</NavLink>
             </div>
             );

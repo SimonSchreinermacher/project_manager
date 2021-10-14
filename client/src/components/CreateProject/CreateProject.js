@@ -28,7 +28,7 @@ class CreateProject extends React.Component {
         const username = getUsernameFromToken(localStorage.getItem("token"))
 
         const createdOn = moment().format().slice(0,10); //Generates a string of current time in format yyyy-mm-dd
-        const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: createdOn, deadline: this.state.deadline}
+        const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: createdOn, finished: false, deadline: this.state.deadline}
         function onSuccess(res){
             this.props.history.push("/")
             window.location.reload();

@@ -38,5 +38,17 @@
 
 .project-createdon{
     margin-left: 5%;
+    flex:50%;
     color: grey;
+}
+
+.project-footer{
+    display:flex;
+    position: relative;
+}
+
+.project-finish{
+    flex: 50%;
+    position: absolute;
+    right: 5%;
 }

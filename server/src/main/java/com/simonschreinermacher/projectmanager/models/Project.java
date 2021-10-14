@@ -20,6 +20,7 @@ public class Project {
     private String language;
     private LocalDate created_on;
     private LocalDate deadline;
+    private boolean finished;
 
     @MappedCollection(keyColumn = "todo_id", idColumn = "project")
     private Set<Todo> todos;

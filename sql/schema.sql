@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS project(
 	language VARCHAR(255),
 	created_on DATE,
 	deadline DATE,
+	finished BOOLEAN,
 	user INTEGER REFERENCES user(user_id)
 );
 

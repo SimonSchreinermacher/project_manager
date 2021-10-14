@@ -21,6 +21,7 @@ class Project extends React.Component {
             language: "LOADING",
             createdOn: "LOADING",
             deadline: "yes",
+            finished: "",
             todos: [],
             todos_shown: "Running",
             todo_key: 0
@@ -63,6 +64,7 @@ class Project extends React.Component {
                 language: res.data.language,
                 createdOn: res.data.created_on,
                 deadline: res.data.deadline,
+                finished: res.data.finished,
                 todos: res.data.todos
             });
         }
@@ -83,10 +85,20 @@ class Project extends React.Component {
         this.loadContent();
     }
 
-    editProject(){
+    finishProject(event){
+        event.preventDefault();
+        const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline, finished: !this.state.finished}
+        this.editProject(data);
+    }
+
+    confirmManualEditing(){
+        const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline, finished: this.state.finished}
+        this.editProject(data);
+    }
+
+    editProject(data){
         const username = getUsernameFromToken(localStorage.getItem("token"))
 
-        const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline}
         function onSuccess(res){
             window.location.reload();
         }
@@ -106,6 +118,13 @@ class Project extends React.Component {
                     <hr></hr>
                 </div>
             );*/
+        let finish_button_text;
+        if(this.state.finished){
+            finish_button_text = "Set as running";
+        }
+        else{
+            finish_button_text = "Set as finished";
+        }
 
         return(
             <div class="project-body">
@@ -124,14 +143,14 @@ class Project extends React.Component {
                     type="header"
                     text= {this.state.name}
                     onChange={text => this.setState({name: text})}
-                    onConfirm={this.editProject.bind(this)}>
+                    onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
 
                 <EditableInput 
                     type="text" 
                     text= {this.state.description} 
                     onChange = {text => this.setState({description: text})} 
-                    onConfirm={this.editProject.bind(this)}>
+                    onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
                 
                 <EditableDropdown 
@@ -139,7 +158,7 @@ class Project extends React.Component {
                     options = {languages}
                     onChange = {selected => this.setState({language: selected})} 
                     prefix = "Language: "
-                    onConfirm={this.editProject.bind(this)}>
+                    onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableDropdown>
                 
                 <EditableInput 
@@ -147,11 +166,16 @@ class Project extends React.Component {
                     text= {this.state.deadline} 
                     onChange = {text => this.setState({deadline: text})} 
                     prefix = "Project must be finished before: "
-                    onConfirm={this.editProject.bind(this)}>
+                    onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
                 
-                <p class="project-createdon">Created on: {this.state.createdOn}</p>       
-                
+                <div class="project-footer">
+                <p class="project-createdon">Created on: {this.state.createdOn}</p>  
+
+                <form class="project-finish" onSubmit={this.finishProject.bind(this)}>
+                    <button class="btn btn-success" type="submit">{finish_button_text}</button>    
+                </form>     
+                </div>
                 <Route exact path="/project/:id">
                     <TodoList todos = {this.state.todos} project_id = {this.props.match.params.id}/>
                 </Route>
