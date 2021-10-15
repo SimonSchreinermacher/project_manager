@@ -10,6 +10,9 @@ export function axiosAuthenticatedCall(httpMethod, url, data, onSuccess, onError
         onSuccess(res2);
     }))
     .catch((err) => {
+        if(err.request && !err.response){   //Backend not reachable
+            localStorage.removeItem("token");
+        }
         onError(err);
     })
 }

@@ -11,7 +11,7 @@ class Login extends React.Component {
         this.state={
             input_name: "",
             input_password: "",
-            wrong_credentials: false
+            error_message: ""
         }
     }
 
@@ -24,7 +24,13 @@ class Login extends React.Component {
             this.props.history.push('/');
         })
         .catch((err) => {
-            this.setState({wrong_credentials: true})
+            if(err.request && !err.response){
+                this.setState({error_message: "Server unreachable"})
+            }
+            else{
+                this.setState({error_message: "Wrong username or password"})
+            }
+            
             console.log(err);
         })
     }
@@ -37,8 +43,8 @@ class Login extends React.Component {
 
     render(){
         let error_message;
-        if(this.state.wrong_credentials){
-            error_message = <Alert variant="danger">Wrong username or password</Alert>
+        if(this.state.error_message !== ""){
+            error_message = <Alert variant="danger">{this.state.error_message}</Alert>
         }
         return(
             <div class="authentication-body">
