@@ -53,11 +53,11 @@ class Login extends React.Component {
                 <form class="form-group" onSubmit={this.handleLogin.bind(this)}>
                     <div >
                     <p>Enter username</p>
-                    <input class="form-control" onChange={e => this.setState({input_name: e.target.value})}></input>
+                    <input class="form-control" required onChange={e => this.setState({input_name: e.target.value})}></input>
                     </div>
                     <br></br>
                     <p>Enter password</p>
-                    <input class="form-control" type="password" onChange={e => this.setState({input_password: e.target.value})}></input>
+                    <input class="form-control" required type="password" onChange={e => this.setState({input_password: e.target.value})}></input>
                     <br></br>
                     <button class="btn btn-primary" type="submit">Login</button>
                 </form>
