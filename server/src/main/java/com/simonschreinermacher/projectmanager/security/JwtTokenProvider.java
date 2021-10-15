@@ -1,5 +1,6 @@
 package com.simonschreinermacher.projectmanager.security;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,7 +20,9 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider implements Serializable {
-    private String secret = "testsecret"; //TODO: PUT IN HIDDEN ENV
+
+    Dotenv dotenv = Dotenv.configure().directory("../").load();
+    private String secret = dotenv.get("JWT_TOKEN_SECRET");
 
     private long tokenExpiration = 1000 * 60 * 10;
 
