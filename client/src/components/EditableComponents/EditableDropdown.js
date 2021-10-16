@@ -42,7 +42,7 @@ class EditableDropdown extends React.Component{
         else{
             html =  <div class="editable-body">
                         <form class="editable-button" onSubmit= {this.switchMode.bind(this)}>
-                            <button class="btn btn-primary" type="submit">Edit</button>
+                            {this.props.editable && <button class="btn btn-primary" type="submit">Edit</button>}
                         </form>
                         <p class="editable-text">{this.props.prefix} {this.props.selected}</p>
                     </div>

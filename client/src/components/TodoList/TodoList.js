@@ -42,7 +42,11 @@ class TodoList extends React.Component {
         }
         const todo_list = filtered_todos.filter(task => {return (task._finished ^ this.state.filter_status === "Running")}).map(task => 
             <div> 
-                <Todo key = {Math.floor(Math.random() * 10000000)} todo = {task} project_id = {this.props.project_id}></Todo> 
+                <Todo 
+                    key = {Math.floor(Math.random() * 10000000)} 
+                    todo = {task} project_id = {this.props.project_id} 
+                    project_finished = {this.props.project_finished}>
+                </Todo> 
                 <hr></hr>
             </div>
         );
@@ -53,7 +57,7 @@ class TodoList extends React.Component {
                 <hr></hr> 
                 <h2 class="todolist-header">TODO:</h2>
                 <form onSubmit={this.addNewTodo.bind(this)}>
-                    <button class="btn btn-primary" type="submit">Add new</button>
+                    {!this.props.project_finished && <button class="btn btn-primary" type="submit">Add new</button>}
                 </form>
 
                 <div class="todolist-filter">

@@ -42,7 +42,7 @@ class EditableInput extends React.Component{
             html =  <div class="editable-body">
                         <div class="editable-button">
                             <form onSubmit= {this.switchMode.bind(this)}>
-                                <button class="btn btn-primary" type="submit">Edit</button>
+                                {this.props.editable && <button class="btn btn-primary" type="submit">Edit</button>}
                             </form>
                         </div>
                         <div class={displayclass}>

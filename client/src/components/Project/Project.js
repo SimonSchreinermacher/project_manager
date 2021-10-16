@@ -127,6 +127,7 @@ class Project extends React.Component {
                 <EditableInput
                     type="header"
                     text= {this.state.name}
+                    editable = {!this.state.finished}
                     onChange={text => this.setState({name: text})}
                     onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
@@ -134,6 +135,7 @@ class Project extends React.Component {
                 <EditableInput 
                     type="text" 
                     text= {this.state.description} 
+                    editable = {!this.state.finished}
                     onChange = {text => this.setState({description: text})} 
                     onConfirm={this.confirmManualEditing.bind(this)}>
                 </EditableInput>
@@ -141,6 +143,7 @@ class Project extends React.Component {
                 <EditableDropdown 
                     selected = {this.state.language} 
                     options = {languages}
+                    editable = {!this.state.finished}
                     onChange = {selected => this.setState({language: selected})} 
                     prefix = "Language: "
                     onConfirm={this.confirmManualEditing.bind(this)}>
@@ -149,6 +152,7 @@ class Project extends React.Component {
                 <EditableInput 
                     type="date" 
                     text= {this.state.deadline} 
+                    editable = {!this.state.finished}
                     onChange = {text => this.setState({deadline: text})} 
                     prefix = "Project must be finished before: "
                     onConfirm={this.confirmManualEditing.bind(this)}>
@@ -162,7 +166,7 @@ class Project extends React.Component {
                 </form>     
                 </div>
                 <Route exact path="/project/:id">
-                    <TodoList todos = {this.state.todos} project_id = {this.props.match.params.id}/>
+                    <TodoList todos = {this.state.todos} project_id = {this.props.match.params.id} project_finished = {this.state.finished}/>
                 </Route>
                 <Route path="/project/:id/newtask">
                     <CreateTodo></CreateTodo>

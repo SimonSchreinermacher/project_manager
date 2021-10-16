@@ -64,6 +64,7 @@ class Todo extends React.Component {
                 <EditableInput 
                     type="text" 
                     text= {this.state.title} 
+                    editable = {!this.props.project_finished}
                     onChange = {text => this.setState({title: text})} 
                     prefix = "Title: "
                     onConfirm={this.confirmManualEditing.bind(this)}>
@@ -71,6 +72,7 @@ class Todo extends React.Component {
                 
                 <EditableDropdown
                     selected= {this.state.category} 
+                    editable = {!this.props.project_finished}
                     options= {["Feature", "Bug", "Refactor", "Update"]}
                     onChange = {text => this.setState({category: text})} 
                     prefix = "Category: "
@@ -79,6 +81,7 @@ class Todo extends React.Component {
 
                 <EditableDropdown  
                     selected= {this.state.importance} 
+                    editable = {!this.props.project_finished}
                     options = {["Minor", "Medium", "Major", "Serious", "Very Serious"]}
                     onChange = {text => this.setState({importance: text})} 
                     prefix = "Importance: "
