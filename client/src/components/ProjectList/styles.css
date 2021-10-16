@@ -21,6 +21,13 @@
     text-align: left;
 }
 
+.link-overdue{
+    font-size: x-small;
+    margin-top: -2%;
+    margin-bottom: 0%;
+    text-align: left;
+}
+
 .header{
     margin: auto;
     margin-bottom: 1%;
