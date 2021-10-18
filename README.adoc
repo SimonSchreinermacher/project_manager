@@ -1,0 +1,28 @@
+= Project Manager website
+
+This repository hosts the sourcecode for a website designed to manage programming projects using React.js and Java Spring. 
+
+== Features
+
+- Add projects and project details (such as description, deadline, used programming language)
+- Add Todos to existing projects to keep track of whats left to do 
+- Filter projects by their completion status and by search result
+- Filter Todos by their category, their completion status and by search result
+- User Authentication via JwtToken
+- Projects that have exceeded their deadline are displayed in red to stick out
+- Designed as a Single Page Application (webpage will dynamically load/unload content)
+
+== Implementation details
+
+The website uses React for serving the main webpage and handling the user input. The backend consists of Java with Spring Boot for handling the API calls, 
+Spring Data for the connection to the MySql database (managed by a Docker container) and Spring Security for the Authentication, so only logged in users can access the protected API 
+routes.
+
+== Environmental Variables
+
+A .env file that is not uploaded to GitHub is required in the root folder of the project that contains values to the following variables:
+
+- MYSQL_USER
+- MYSQL_PASSWORD
+- MYSQL_ROOT_PASSWORD
+- JWT_TOKEN_SECRET
