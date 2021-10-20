@@ -24,7 +24,7 @@ public class JwtTokenProvider implements Serializable {
     Dotenv dotenv = Dotenv.configure().directory("../").load();
     private String secret = dotenv.get("JWT_TOKEN_SECRET");
 
-    private long tokenExpiration = 1000 * 60 * 10;
+    private long tokenExpiration = 1000 * 60 * 60;
 
     @Autowired
     private UserDetailsService userDetailsService;

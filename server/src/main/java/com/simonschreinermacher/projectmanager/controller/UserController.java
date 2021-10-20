@@ -41,6 +41,7 @@ public class UserController {
     public ResponseEntity<Project> getProjectById(@PathVariable(value = "project_id") Long project_id, @PathVariable(value="username") String username){
         User user = userRepository.findByUsername(username);
         if(user == null){
+            System.out.println("ERROR: Could not load user " + username);
             throw new ResourceNotFoundException("Invalid user " + username);
         }
         Project project = user.findProjectById(project_id);
@@ -53,6 +54,7 @@ public class UserController {
     public ResponseEntity<Boolean> addProject(@PathVariable(value="username") String username, @RequestBody Map<String, Object> payload){
         User user = userRepository.findByUsername(username);
         if(user == null){
+            System.out.println("ERROR: Could not load user " + username);
             throw new ResourceNotFoundException("Invalid user " + username);
         }
 
@@ -73,7 +75,7 @@ public class UserController {
         user.addProject(project);
 
         userRepository.save(user);
-
+        System.out.println("LOG: Added new project " + name + " to user " + username);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
@@ -81,6 +83,7 @@ public class UserController {
     public ResponseEntity<Boolean> addTodo(@RequestBody Map<String, Object> payload, @PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id){
         User user = userRepository.findByUsername(username);
         if(user == null){
+            System.out.println("ERROR: Could not load user " + username);
             throw new ResourceNotFoundException("Invalid user " + username);
         }
 
@@ -93,6 +96,7 @@ public class UserController {
         Project project = user.findProjectById(Long.parseLong(project_id));
         project.addTodo(todo);
         userRepository.save(user);
+        System.out.println("LOG: Added new task " + title + " to project " + project_id + " of user " + username);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
@@ -100,11 +104,13 @@ public class UserController {
     public ResponseEntity<Boolean> deleteProject(@PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id){
         User user = userRepository.findByUsername(username);
         if(user == null){
+            System.out.println("ERROR: Could not load user " + username);
             throw new ResourceNotFoundException("Invalid user " + username);
         }
 
         user.removeProject(Long.parseLong(project_id));
         userRepository.save(user);
+        System.out.println("LOG: Deleted project with id " + project_id + " of user " + username);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
@@ -112,12 +118,14 @@ public class UserController {
     public ResponseEntity<Boolean> deleteTodo(@PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id){
         User user = userRepository.findByUsername(username);
         if(user == null){
+            System.out.println("ERROR: Could not load user " + username);
             throw new ResourceNotFoundException("Invalid user " + username);
         }
 
         Project project = user.findProjectById(Long.parseLong(project_id));
         project.removeTodo(Long.parseLong(todo_id));
         userRepository.save(user);
+        System.out.println("LOG: Deleted task " + todo_id + " from project " + project_id + " of user " + username);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
@@ -125,10 +133,10 @@ public class UserController {
     public ResponseEntity<Boolean> editProject(@PathVariable(value="username") String username, @PathVariable(value= "project_id") String project_id, @RequestBody Map<String, Object> payload){
         User user = userRepository.findByUsername(username);
         if(user == null){
+            System.out.println("ERROR: Could not load user " + username);
             throw new ResourceNotFoundException("Invalid user " + username);
         }
 
-        System.out.println(payload);
         String name = payload.get("name").toString();
         String description = payload.get("description").toString();
         String deadlineString = payload.get("deadline").toString();
@@ -145,6 +153,7 @@ public class UserController {
         Project updatedProject = new Project(Long.parseLong(project_id), name, description, language, createdOn, deadline, finished, project.getTodos());
         user.editProject(updatedProject);
         userRepository.save(user);
+        System.out.println("LOG: Edited project " + project_id + " of user " + username);
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
@@ -152,6 +161,7 @@ public class UserController {
     public ResponseEntity<Boolean> editTodo(@PathVariable(value="username") String username,@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id, @RequestBody Map<String, Object> payload){
       User user = userRepository.findByUsername(username);
         if(user == null){
+            System.out.println("ERROR: Could not load user " + username);
             throw new ResourceNotFoundException("Invalid user " + username);
         }
 
@@ -165,6 +175,7 @@ public class UserController {
       Todo updatedTodo = new Todo(Long.parseLong(todo_id), title, category, importance, is_finished);
       project.editTodo(updatedTodo);
       userRepository.save(user);
+        System.out.println("LOG: Edited task " + todo_id + " from project " + project_id + " of user " + username);
       return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 }

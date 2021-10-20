@@ -44,9 +44,11 @@ public class AuthenticationController {
             Authentication authentication = manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             if(authentication.isAuthenticated()){
                 String token = provider.createToken(username);
+                System.out.println("LOG: Successfully authenticated user " + username);
                 return new ResponseEntity<String>(token, HttpStatus.OK);
             }
         }catch(Exception e){
+            System.out.println("ERROR: User used wrong credentials and was not logged in");
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
         return null;
@@ -60,9 +62,11 @@ public class AuthenticationController {
             if(userRepository.findByUsername(username) == null){
                 User user = new User(null, username, new BCryptPasswordEncoder().encode(password), new HashSet<>());
                 userRepository.save(user);
+                System.out.println("LOG: Created new user " + username);
                 return new ResponseEntity<String>("Saved new user " + username, HttpStatus.OK);
             }
             else{
+                System.out.println("ERROR: User with username " + username + " already exists and could not be created");
                 return new ResponseEntity<String>("User " + username + " already exists", HttpStatus.CONFLICT);
             }
 
@@ -80,10 +84,6 @@ public class AuthenticationController {
             String username = provider.getClaims(activeToken).getSubject();
             String newToken = provider.createToken(username);
 
-            System.out.println("===========");
-            System.out.println("Token expires: " + provider.getClaims(newToken).getExpiration());
-            System.out.println("Now: " + new Date());
-            System.out.println("===========");
             return new ResponseEntity<String>(newToken, HttpStatus.OK);
         }
         return new ResponseEntity<String>("Token expired", HttpStatus.UNAUTHORIZED);
