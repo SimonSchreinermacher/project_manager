@@ -39,17 +39,19 @@ class Project extends React.Component {
 
     deleteProject(event){
         event.preventDefault();
-        const username = getUsernameFromToken(localStorage.getItem("token"))
+        if(window.confirm("Are you sure you want to delete this project?")){
+            const username = getUsernameFromToken(localStorage.getItem("token"))
 
-        function onSuccess(res){
-            this.props.history.push("/")
-            window.location.reload();
+            function onSuccess(res){
+                this.props.history.push("/")
+                window.location.reload();
+            }
+            function onError(err){
+                console.log(err);
+                this.props.history.push("/login");
+            }
+            axiosAuthenticatedCall("delete", "http://localhost:8080/" + username + "/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
         }
-        function onError(err){
-            console.log(err);
-            this.props.history.push("/login");
-        }
-        axiosAuthenticatedCall("delete", "http://localhost:8080/" + username + "/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
     }
 
     loadContent(){
@@ -86,8 +88,11 @@ class Project extends React.Component {
 
     finishProject(event){
         event.preventDefault();
-        const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline, finished: !this.state.finished}
-        this.editProject(data);
+        let confirm_dialog = this.state.finished ? "reactivate" : "finish";
+        if(window.confirm("Are you sure you want to " + confirm_dialog + " this project?")){
+            const data = {name: this.state.name, description: this.state.description, language: this.state.language, createdOn: this.state.createdOn, deadline: this.state.deadline, finished: !this.state.finished}
+            this.editProject(data);
+        }
     }
 
     confirmManualEditing(){

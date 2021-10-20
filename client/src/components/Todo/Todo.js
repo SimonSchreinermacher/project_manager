@@ -20,16 +20,18 @@ class Todo extends React.Component {
 
     deleteTodo(event){
         event.preventDefault();
-        const username = getUsernameFromToken(localStorage.getItem("token"))
+        if(window.confirm("Are you sure you want to delete this task?")){
+            const username = getUsernameFromToken(localStorage.getItem("token"))
 
-        function onSuccess(res){
-            window.location.reload(); 
+            function onSuccess(res){
+                window.location.reload(); 
+            }
+            function onError(err){
+                console.log(err);
+                this.props.history.push("/login");
+            }
+            axiosAuthenticatedCall("delete", "http://localhost:8080/" + username + "/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, [], onSuccess.bind(this), onError.bind(this))
         }
-        function onError(err){
-            console.log(err);
-            this.props.history.push("/login");
-        }
-        axiosAuthenticatedCall("delete", "http://localhost:8080/" + username + "/projects/" + this.props.project_id + "/todos/" + this.props.todo.todo_id, [], onSuccess.bind(this), onError.bind(this))
     }
 
     changeStatus(event){
