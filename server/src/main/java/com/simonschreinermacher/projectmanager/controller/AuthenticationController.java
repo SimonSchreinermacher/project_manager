@@ -3,6 +3,7 @@ package com.simonschreinermacher.projectmanager.controller;
 import com.simonschreinermacher.projectmanager.models.User;
 import com.simonschreinermacher.projectmanager.repositories.UserRepository;
 import com.simonschreinermacher.projectmanager.security.JwtTokenProvider;
+import com.simonschreinermacher.projectmanager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +29,11 @@ public class AuthenticationController {
     private AuthenticationManager manager;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping("/user")
     public List<User> getUser(){
-        List<User> userList = userRepository.findAll();
+        List<User> userList = userService.findAllUsers();
         return userList;
     }
 
@@ -59,9 +60,9 @@ public class AuthenticationController {
         String username = payload.get("username").toString();
         String password = payload.get("password").toString();
         try{
-            if(userRepository.findByUsername(username) == null){
+            if(userService.findUserByUsername(username) == null){
                 User user = new User(null, username, new BCryptPasswordEncoder().encode(password), new HashSet<>());
-                userRepository.save(user);
+                userService.saveUser(user);
                 System.out.println("LOG: Created new user " + username);
                 return new ResponseEntity<String>("Saved new user " + username, HttpStatus.OK);
             }

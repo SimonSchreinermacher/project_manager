@@ -4,7 +4,7 @@ import com.simonschreinermacher.projectmanager.error.ResourceNotFoundException;
 import com.simonschreinermacher.projectmanager.models.Project;
 import com.simonschreinermacher.projectmanager.models.Todo;
 import com.simonschreinermacher.projectmanager.models.User;
-import com.simonschreinermacher.projectmanager.repositories.UserRepository;
+import com.simonschreinermacher.projectmanager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,41 +23,25 @@ import java.util.*;
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @GetMapping("/projects")
     public Set<Project> getAllProjects(){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            throw new ResourceNotFoundException("Invalid user " + username);
-        }
+        User user = userService.findUserByAuthentication();
         Set<Project> projects = user.getProjects();
         return projects;
     }
 
     @GetMapping("/projects/{project_id}")
     public ResponseEntity<Project> getProjectById(@PathVariable(value = "project_id") Long project_id){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            System.out.println("ERROR: Could not load user " + username);
-            throw new ResourceNotFoundException("Invalid user " + username);
-        }
+        User user = userService.findUserByAuthentication();
         Project project = user.findProjectById(project_id);
         return new ResponseEntity<Project>(project, HttpStatus.OK);
-
-
     }
 
     @PostMapping("/projects")
     public ResponseEntity<Boolean> addProject(@RequestBody Map<String, Object> payload){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            System.out.println("ERROR: Could not load user " + username);
-            throw new ResourceNotFoundException("Invalid user " + username);
-        }
+        User user = userService.findUserByAuthentication();
 
         Set<Todo> todos = new HashSet<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -75,19 +59,14 @@ public class UserController {
         Project project = new Project(null, name, description, language, createdOn, deadline, false, todos);
         user.addProject(project);
 
-        userRepository.save(user);
-        System.out.println("LOG: Added new project " + name + " to user " + username);
+        userService.saveUser(user);
+        System.out.println("LOG: Added new project " + name + " to user " + user.getUsername());
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @PostMapping("/projects/{project_id}/todos")
     public ResponseEntity<Boolean> addTodo(@RequestBody Map<String, Object> payload, @PathVariable(value = "project_id") String project_id){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            System.out.println("ERROR: Could not load user " + username);
-            throw new ResourceNotFoundException("Invalid user " + username);
-        }
+        User user = userService.findUserByAuthentication();
 
         String title = payload.get("title").toString();
         String importance = payload.get("importance").toString();
@@ -97,50 +76,35 @@ public class UserController {
 
         Project project = user.findProjectById(Long.parseLong(project_id));
         project.addTodo(todo);
-        userRepository.save(user);
-        System.out.println("LOG: Added new task " + title + " to project " + project_id + " of user " + username);
+        userService.saveUser(user);
+        System.out.println("LOG: Added new task " + title + " to project " + project_id + " of user " + user.getUsername());
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @DeleteMapping("/projects/{project_id}")
     public ResponseEntity<Boolean> deleteProject(@PathVariable(value = "project_id") String project_id){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            System.out.println("ERROR: Could not load user " + username);
-            throw new ResourceNotFoundException("Invalid user " + username);
-        }
+        User user = userService.findUserByAuthentication();
 
         user.removeProject(Long.parseLong(project_id));
-        userRepository.save(user);
-        System.out.println("LOG: Deleted project with id " + project_id + " of user " + username);
+        userService.saveUser(user);
+        System.out.println("LOG: Deleted project with id " + project_id + " of user " + user.getUsername());
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @DeleteMapping("/projects/{project_id}/todos/{todo_id}")
     public ResponseEntity<Boolean> deleteTodo(@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            System.out.println("ERROR: Could not load user " + username);
-            throw new ResourceNotFoundException("Invalid user " + username);
-        }
+        User user = userService.findUserByAuthentication();
 
         Project project = user.findProjectById(Long.parseLong(project_id));
         project.removeTodo(Long.parseLong(todo_id));
-        userRepository.save(user);
-        System.out.println("LOG: Deleted task " + todo_id + " from project " + project_id + " of user " + username);
+        userService.saveUser(user);
+        System.out.println("LOG: Deleted task " + todo_id + " from project " + project_id + " of user " + user.getUsername());
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @PutMapping("/projects/{project_id}")
     public ResponseEntity<Boolean> editProject(@PathVariable(value= "project_id") String project_id, @RequestBody Map<String, Object> payload){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            System.out.println("ERROR: Could not load user " + username);
-            throw new ResourceNotFoundException("Invalid user " + username);
-        }
+        User user = userService.findUserByAuthentication();
 
         String name = payload.get("name").toString();
         String description = payload.get("description").toString();
@@ -157,19 +121,14 @@ public class UserController {
         Project project = user.findProjectById(Long.parseLong(project_id));
         Project updatedProject = new Project(Long.parseLong(project_id), name, description, language, createdOn, deadline, finished, project.getTodos());
         user.editProject(updatedProject);
-        userRepository.save(user);
-        System.out.println("LOG: Edited project " + project_id + " of user " + username);
+        userService.saveUser(user);
+        System.out.println("LOG: Edited project " + project_id + " of user " + user.getUsername());
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
     @PutMapping("/projects/{project_id}/todos/{todo_id}")
     public ResponseEntity<Boolean> editTodo(@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id, @RequestBody Map<String, Object> payload){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-      User user = userRepository.findByUsername(username);
-        if(user == null){
-            System.out.println("ERROR: Could not load user " + username);
-            throw new ResourceNotFoundException("Invalid user " + username);
-        }
+        User user = userService.findUserByAuthentication();
 
       String title = payload.get("title").toString();
       String importance = payload.get("importance").toString();
@@ -180,8 +139,8 @@ public class UserController {
       Project project = user.findProjectById(Long.parseLong(project_id));
       Todo updatedTodo = new Todo(Long.parseLong(todo_id), title, category, importance, is_finished);
       project.editTodo(updatedTodo);
-      userRepository.save(user);
-        System.out.println("LOG: Edited task " + todo_id + " from project " + project_id + " of user " + username);
+      userService.saveUser(user);
+        System.out.println("LOG: Edited task " + todo_id + " from project " + project_id + " of user " + user.getUsername());
       return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 }
