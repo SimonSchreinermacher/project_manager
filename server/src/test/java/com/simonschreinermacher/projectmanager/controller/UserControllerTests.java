@@ -21,8 +21,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -120,6 +119,98 @@ public class UserControllerTests {
                 .andExpect(status().is2xxSuccessful());
         Todo todo = new Todo(null, "todo1", "Update", "Serious", false);
         assertThat(project.getTodos()).contains(todo);
+    }
+
+    @Test
+    @WithMockUser
+    public void deleteExistingProject() throws Exception{
+        Project project = new Project(1L, "project name", "desc", "Java", LocalDate.now(), LocalDate.now(), false, new HashSet<Todo>());
+        Project project2 = new Project(2L, "other project", "other desc", "Java", LocalDate.now(), LocalDate.now(), false, new HashSet<Todo>());
+        User user = new User(1L, "someUser", "password", Set.of(project, project2));
+        when(service.findUserByAuthentication()).thenReturn(user);
+
+        mvc.perform(delete("/projects/1"))
+                .andExpect(status().is2xxSuccessful());
+        assertThat(user.getProjects()).contains(project2);
+        assertThat(user.getProjects()).doesNotContain(project);
+    }
+
+    @Test
+    @WithMockUser
+    public void deleteExistingTodo() throws Exception{
+        Todo todo1 = new Todo(1L, "todo title", "Feature", "Serious", false);
+        Todo todo2 = new Todo(2L, "another todo", "Refactor", "Minor", true);
+        Project project = new Project(1L, "project name", "desc", "Java", LocalDate.now(), LocalDate.now(), false, Set.of(todo1, todo2));
+        User user = new User(1L, "someUser", "password", Set.of(project));
+        when(service.findUserByAuthentication()).thenReturn(user);
+
+        mvc.perform(delete("/projects/1/todos/1"))
+                .andExpect(status().is2xxSuccessful());
+        assertThat(project.getTodos()).contains(todo2);
+        assertThat(project.getTodos()).doesNotContain(todo1);
+    }
+
+    @Test
+    @WithMockUser
+    public void editExistingProject() throws Exception{
+        Project project = new Project(1L, "old project name", "old desc", "Java", LocalDate.of(2021, 11,21), LocalDate.of(2021, 12, 24), false, new HashSet<Todo>());
+        User user = new User(1L, "someUser", "password", Set.of(project));
+        when(service.findUserByAuthentication()).thenReturn(user);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("name", "new project name");
+        payload.put("description", "old desc");
+        payload.put("language", "Java");
+        payload.put("deadline", "2021-12-24");
+        payload.put("createdOn", "2021-11-21");
+        payload.put("finished", true);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String content = mapper.writeValueAsString(payload);
+
+        mvc.perform(put("/projects/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content))
+                .andExpect(status().is2xxSuccessful());
+
+        assertThat(user.getProjects()).contains(project);
+        assertThat(project.getProject_id()).isEqualTo(1L);
+        assertThat(project.getName()).isEqualTo("new project name");
+        assertThat(project.getDescription()).isEqualTo("old desc");
+        assertThat(project.getLanguage()).isEqualTo("Java");
+        assertThat(project.getCreated_on()).isEqualTo(LocalDate.of(2021, 11, 21));
+        assertThat(project.getDeadline()).isEqualTo(LocalDate.of(2021, 12, 24));
+        assertThat(project.isFinished()).isEqualTo(true);
+    }
+
+    @Test
+    @WithMockUser
+    public void editExistingTodo() throws Exception{
+        Todo todo = new Todo(1L, "old title", "Feature", "Minor", false);
+        Project project = new Project(1L, "old project name", "old desc", "Java", LocalDate.of(2021, 11,21), LocalDate.of(2021, 12, 24), false, Set.of(todo));
+        User user = new User(1L, "someUser", "password", Set.of(project));
+        when(service.findUserByAuthentication()).thenReturn(user);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("title", "new title");
+        payload.put("category", "Feature");
+        payload.put("importance", "Major");
+        payload.put("is_finished", true);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String content = mapper.writeValueAsString(payload);
+
+        mvc.perform(put("/projects/1/todos/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content))
+                .andExpect(status().is2xxSuccessful());
+
+        assertThat(project.getTodos()).contains(todo);
+        assertThat(todo.getTodo_id()).isEqualTo(1L);
+        assertThat(todo.getTitle()).isEqualTo("new title");
+        assertThat(todo.getCategory()).isEqualTo("Feature");
+        assertThat(todo.getImportance()).isEqualTo("Major");
+        assertThat(todo.get_finished()).isEqualTo(true);
     }
 
 }
