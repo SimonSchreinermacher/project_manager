@@ -5,6 +5,7 @@ import com.simonschreinermacher.projectmanager.models.Project;
 import com.simonschreinermacher.projectmanager.models.Todo;
 import com.simonschreinermacher.projectmanager.models.User;
 import com.simonschreinermacher.projectmanager.services.UserService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +38,7 @@ public class UserControllerTests {
     UserService service;
     
     @Test
+    @DisplayName("All projects that belong to the same user should be returned")
     @WithMockUser
     public void loadProjects() throws Exception{
         Project project = new Project(1L, "project name", "desc", "Java", LocalDate.now(), LocalDate.now(), false, new HashSet<Todo>());
@@ -52,6 +54,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("Only the project matching the id in the url should be returned")
     @WithMockUser
     public void loadSpecificProject() throws Exception{
         Project project = new Project(1L, "project name", "desc", "Java", LocalDate.now(), LocalDate.now(), false, new HashSet<Todo>());
@@ -68,6 +71,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("When the endpoint is accessed with an id that doesnt belong to any project, the api should return 404")
     @WithMockUser
     public void notExistingProjectReturns404() throws Exception{
         Project project = new Project(1L, "project name", "desc", "Java", LocalDate.now(), LocalDate.now(), false, new HashSet<Todo>());
@@ -79,6 +83,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("The user should contain the new project after the post request")
     @WithMockUser
     public void saveNewProject() throws Exception{
         User user = new User(1L, "someUser", "password", new HashSet<Project>());
@@ -101,6 +106,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("The project should contain the new todo after the post request")
     @WithMockUser
     public void saveNewTodo() throws Exception{
         Project project = new Project(1L, "project name", "desc", "Java", LocalDate.now(), LocalDate.now(), false, new HashSet<Todo>());
@@ -122,6 +128,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("The user should no longer contain the deleted project, but the other project should still exist")
     @WithMockUser
     public void deleteExistingProject() throws Exception{
         Project project = new Project(1L, "project name", "desc", "Java", LocalDate.now(), LocalDate.now(), false, new HashSet<Todo>());
@@ -136,6 +143,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("The project should no longer contain the deleted todo, but the other todo should still exist")
     @WithMockUser
     public void deleteExistingTodo() throws Exception{
         Todo todo1 = new Todo(1L, "todo title", "Feature", "Serious", false);
@@ -151,6 +159,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("Only the edited details should be changed, and the project should still belong to the same user")
     @WithMockUser
     public void editExistingProject() throws Exception{
         Project project = new Project(1L, "old project name", "old desc", "Java", LocalDate.of(2021, 11,21), LocalDate.of(2021, 12, 24), false, new HashSet<Todo>());
@@ -184,6 +193,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @DisplayName("Only the edited details should be changed, and the todo should still belong to the same project")
     @WithMockUser
     public void editExistingTodo() throws Exception{
         Todo todo = new Todo(1L, "old title", "Feature", "Minor", false);
