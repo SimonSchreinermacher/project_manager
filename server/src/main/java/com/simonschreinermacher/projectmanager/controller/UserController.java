@@ -4,7 +4,6 @@ import com.simonschreinermacher.projectmanager.error.ResourceNotFoundException;
 import com.simonschreinermacher.projectmanager.models.Project;
 import com.simonschreinermacher.projectmanager.models.Todo;
 import com.simonschreinermacher.projectmanager.models.User;
-import com.simonschreinermacher.projectmanager.repositories.ProjectRepository;
 import com.simonschreinermacher.projectmanager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +21,6 @@ import java.util.*;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
-
-    @Autowired
-    ProjectRepository projectRepository;
 
     @Autowired
     UserRepository userRepository;
