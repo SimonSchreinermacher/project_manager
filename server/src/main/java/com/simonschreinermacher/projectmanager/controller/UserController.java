@@ -9,6 +9,8 @@ import com.simonschreinermacher.projectmanager.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +29,9 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/{username}/projects")
-    public Set<Project> getAllProjects(@PathVariable(value="username") String username){
+    @GetMapping("/projects")
+    public Set<Project> getAllProjects(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUsername(username);
         if(user == null){
             throw new ResourceNotFoundException("Invalid user " + username);
@@ -37,8 +40,9 @@ public class UserController {
         return projects;
     }
 
-    @GetMapping("/{username}/projects/{project_id}")
-    public ResponseEntity<Project> getProjectById(@PathVariable(value = "project_id") Long project_id, @PathVariable(value="username") String username){
+    @GetMapping("/projects/{project_id}")
+    public ResponseEntity<Project> getProjectById(@PathVariable(value = "project_id") Long project_id){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUsername(username);
         if(user == null){
             System.out.println("ERROR: Could not load user " + username);
@@ -50,8 +54,9 @@ public class UserController {
 
     }
 
-    @PostMapping("/{username}/projects")
-    public ResponseEntity<Boolean> addProject(@PathVariable(value="username") String username, @RequestBody Map<String, Object> payload){
+    @PostMapping("/projects")
+    public ResponseEntity<Boolean> addProject(@RequestBody Map<String, Object> payload){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUsername(username);
         if(user == null){
             System.out.println("ERROR: Could not load user " + username);
@@ -79,8 +84,9 @@ public class UserController {
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
-    @PostMapping("/{username}/projects/{project_id}/todos")
-    public ResponseEntity<Boolean> addTodo(@RequestBody Map<String, Object> payload, @PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id){
+    @PostMapping("/projects/{project_id}/todos")
+    public ResponseEntity<Boolean> addTodo(@RequestBody Map<String, Object> payload, @PathVariable(value = "project_id") String project_id){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUsername(username);
         if(user == null){
             System.out.println("ERROR: Could not load user " + username);
@@ -100,8 +106,9 @@ public class UserController {
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{username}/projects/{project_id}")
-    public ResponseEntity<Boolean> deleteProject(@PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id){
+    @DeleteMapping("/projects/{project_id}")
+    public ResponseEntity<Boolean> deleteProject(@PathVariable(value = "project_id") String project_id){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUsername(username);
         if(user == null){
             System.out.println("ERROR: Could not load user " + username);
@@ -114,8 +121,9 @@ public class UserController {
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{username}/projects/{project_id}/todos/{todo_id}")
-    public ResponseEntity<Boolean> deleteTodo(@PathVariable(value="username") String username, @PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id){
+    @DeleteMapping("/projects/{project_id}/todos/{todo_id}")
+    public ResponseEntity<Boolean> deleteTodo(@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUsername(username);
         if(user == null){
             System.out.println("ERROR: Could not load user " + username);
@@ -129,8 +137,9 @@ public class UserController {
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
-    @PutMapping("/{username}/projects/{project_id}")
-    public ResponseEntity<Boolean> editProject(@PathVariable(value="username") String username, @PathVariable(value= "project_id") String project_id, @RequestBody Map<String, Object> payload){
+    @PutMapping("/projects/{project_id}")
+    public ResponseEntity<Boolean> editProject(@PathVariable(value= "project_id") String project_id, @RequestBody Map<String, Object> payload){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUsername(username);
         if(user == null){
             System.out.println("ERROR: Could not load user " + username);
@@ -157,8 +166,9 @@ public class UserController {
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
-    @PutMapping("/{username}/projects/{project_id}/todos/{todo_id}")
-    public ResponseEntity<Boolean> editTodo(@PathVariable(value="username") String username,@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id, @RequestBody Map<String, Object> payload){
+    @PutMapping("/projects/{project_id}/todos/{todo_id}")
+    public ResponseEntity<Boolean> editTodo(@PathVariable(value = "project_id") String project_id, @PathVariable(value = "todo_id") String todo_id, @RequestBody Map<String, Object> payload){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
       User user = userRepository.findByUsername(username);
         if(user == null){
             System.out.println("ERROR: Could not load user " + username);

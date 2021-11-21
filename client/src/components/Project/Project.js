@@ -5,7 +5,6 @@ import TodoList from '../TodoList/TodoList';
 import {Route} from 'react-router-dom';
 import CreateTodo from '../CreateTodo/CreateTodo.js';
 import {axiosAuthenticatedCall} from '../../services/AxiosManager.js'
-import {getUsernameFromToken} from '../../services/AuthenticationManager.js';
 import {languages} from '../Constants.js';
 import './styles.css';
 
@@ -40,7 +39,6 @@ class Project extends React.Component {
     deleteProject(event){
         event.preventDefault();
         if(window.confirm("Are you sure you want to delete this project?")){
-            const username = getUsernameFromToken(localStorage.getItem("token"))
 
             function onSuccess(res){
                 this.props.history.push("/")
@@ -50,13 +48,11 @@ class Project extends React.Component {
                 console.log(err);
                 this.props.history.push("/login");
             }
-            axiosAuthenticatedCall("delete", "http://localhost:8080/" + username + "/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
+            axiosAuthenticatedCall("delete", "http://localhost:8080/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
         }
     }
 
     loadContent(){
-        const username = getUsernameFromToken(localStorage.getItem("token"))
-
         function onSuccess(res){
             this.setState({
                 id: this.props.match.params.id,
@@ -73,7 +69,7 @@ class Project extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("get", "http://localhost:8080/" + username + "/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
+        axiosAuthenticatedCall("get", "http://localhost:8080/projects/" + this.props.match.params.id, [], onSuccess.bind(this), onError.bind(this));
     }
 
     componentDidUpdate(){
@@ -101,8 +97,6 @@ class Project extends React.Component {
     }
 
     editProject(data){
-        const username = getUsernameFromToken(localStorage.getItem("token"))
-
         function onSuccess(res){
             window.location.reload();
         }
@@ -110,7 +104,7 @@ class Project extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("put", "http://localhost:8080/" + username + "/projects/" + this.state.id, data, onSuccess.bind(this), onError.bind(this))
+        axiosAuthenticatedCall("put", "http://localhost:8080/projects/" + this.state.id, data, onSuccess.bind(this), onError.bind(this))
     }
 
     render(){

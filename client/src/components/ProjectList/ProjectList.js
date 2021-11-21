@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
-import {authToken, getUsernameFromToken} from '../../services/AuthenticationManager.js';
+import {authToken} from '../../services/AuthenticationManager.js';
 import {axiosAuthenticatedCall} from '../../services/AxiosManager.js';
 import './styles.css'
 
@@ -23,7 +23,6 @@ class ProjectList extends React.Component {
 
     componentDidMount(){
         authToken(localStorage.getItem("token"));
-        const username = getUsernameFromToken(localStorage.getItem("token"))
 
         function onSuccess(res){
             this.setState({projects: res.data})
@@ -32,7 +31,7 @@ class ProjectList extends React.Component {
             console.log(err);
             this.props.history.push("/login");
         }
-        axiosAuthenticatedCall("get", "http://localhost:8080/" + username + "/projects", [], onSuccess.bind(this), onError.bind(this))
+        axiosAuthenticatedCall("get", "http://localhost:8080/projects", [], onSuccess.bind(this), onError.bind(this))
         
     }
 
